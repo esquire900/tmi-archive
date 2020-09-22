@@ -1,0 +1,55 @@
+{% extends 'main_ui.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4" style="line-height: 8px"><i>The Mind Illuminated</i> archive</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            {% if search_query %}
+                <h4>Results for query "{{ search_query }}"</h4>
+            {% endif %}
+            <form action="{% url 'talk_index' %}" method="get">
+                <input name="q" type="text" placeholder="Search..." value="{{ search_query }}" class="form-control">
+            </form>
+            {% for talk in object_list %}
+                <div class="talk mb-3 pb-2 border-bottom">
+                    <a href="{% url 'talk_view' pk=talk.id %}">
+
+                        <h3>{{ talk.title }}</h3>
+                    </a>
+
+                    {{ talk.description | truncatewords:30 }}
+
+                </div>
+
+            {% endfor %}
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">The Mind Illuminated archive</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Meditation talks from Culadasa</h6>
+                    <p class="card-text">tmi-archive.com contains talks from <a href="http://culadasa.com"
+                                                                                target="_blank">Culadasa</a>
+                        and is
+                        inspired by the wonderful "The Mind Illuminated" book.
+                        <br>
+                        <br>
+                        Audio files are cleaned, and anybody can <a href="{% url 'account_signup' %}">join</a> and help
+                        organizing talks.
+                        <br><br>
+                        This is an early stage project, and any feedback or participation is more then welcome.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        {% bootstrap_pagination page_obj %}
+    </div>
+{% endblock %}

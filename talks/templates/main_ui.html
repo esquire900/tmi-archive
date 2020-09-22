@@ -1,0 +1,75 @@
+{% load static %}
+{% load bootstrap4 %}
+{% load account %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+    <title>
+        TMI Archive | {% block title %}{% endblock %}
+    </title>
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<body class="d-flex flex-column h-100">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'talk_index' %}">
+            TMI Archive
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+            </ul>
+            <ul class="navbar-nav my-2 my-lg-0">
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'talk_index' %}">
+                            {% user_display user %}</a>
+                    {% else %}
+                        <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+                    {% endif %}
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+<div class="container">
+
+    {% block content %}
+    {% endblock %}
+
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+            <div class="col-6 col-md text-muted">
+                tmi-archive.com is non-profit and does not hold any rights to it's content. Please contact us if you
+                feel
+                any copyright is violated.
+
+            </div>
+            <div class="col-3">
+                <a href="{% url 'account_login' %}">Login</a><br>
+                <a href="">Contact</a>
+            </div>
+            <div class="col-3">
+                <a href="">Source Code</a><br>
+            </div>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>
+

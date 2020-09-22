@@ -1,0 +1,9 @@
+{% extends 'main_ui.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h2>{{ talk.title }}</h2>
+
+    {% crispy form %}
+{% endblock %}

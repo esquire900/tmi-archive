@@ -1,0 +1,55 @@
+{% extends 'main_ui.html' %}
+{% load static %}
+{% block content %}
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h2 class="display">{{ talk.title }}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            {#    {% if talk.audio_cleaned %}#}
+            <script lang="javascript">
+                window.playerConfiguration = {
+                    "options": {
+                        "theme": "default",
+                    },
+                    "extensions": {
+                        "Share": {
+                            "showOnStart": false
+                        }
+                    },
+                    "episode": {
+                        "media": {
+                            "mp3": "{{ talk.audio_original.url }}"
+                        },
+                        "url": "  {{ request.build_absolute_uri }}",
+                        "description": "{{ talk.description }}", "title": "{{ talk.title }}"
+
+
+                    }
+                }
+            </script>
+            <script class="podigee-podcast-player"
+                    src="https://cdn.podigee.com/podcast-player/javascripts/podigee-podcast-player.js"
+                    data-configuration="playerConfiguration"></script>
+            <br><br><br>
+            <h4>Description</h4>
+            {{ talk.description   }}
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text">
+                        Created at: {{ talk.created_at|date }}
+                        <a href="{% url 'talk_edit' pk=talk.id %}">
+                            <div class="btn btn-primary">Edit talk</div>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
