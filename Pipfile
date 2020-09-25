@@ -21,6 +21,7 @@ django-bootstrap4 = "*"
 paramiko = "*"
 django-crispy-forms = "*"
 django-taggit = "*"
+django-allauth = "*"
 
 [requires]
 python_version = "3.8"
