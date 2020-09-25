@@ -4,46 +4,64 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h2 class="display">{{ talk.title }}</h2>
+            {% if audio.url %}
+                <script lang="javascript">
+                    window.playerConfiguration = {
+                        "options": {
+                            "theme": "default",
+                        },
+                        "extensions": {
+                            "Share": {
+                                "showOnStart": false
+                            }
+                        },
+                        "episode": {
+                            "media": {
+                                "mp3": "{{ audio.url }}"
+                            },
+                            "url": "{{ request.build_absolute_uri }}",
+                            "description": "{{ talk.description }}", "title": "{{ talk.title }}"
+                        }
+                    }
+                </script>
+
+                <script class="podigee-podcast-player"
+                        src="https://cdn.podigee.com/podcast-player/javascripts/podigee-podcast-player.js"
+                        data-configuration="playerConfiguration"></script>
+                <small>
+                    {% if talk.audio_cleaned %}
+                        {% ifequal audio.url talk.audio_cleaned.url %}
+
+                            This is the cleaned audio. <a href="?original_audio=1">Click here to listen to the original</a>
+                        {% endifequal %}
+                    {% endif %}
+                    {% if talk.audio_original %}
+                        {% ifequal audio.url talk.audio_original.url %}
+                            This is the original audio. <a href="?original_audio=0">Click here to listen to the original</a>
+
+                        {% endifequal %}
+                    {% endif %}
+                </small>
+
+            {% else %}
+                There is no audio for this talk.
+            {% endif %}
+
         </div>
     </div>
     <div class="row">
         <div class="col-8">
-            {#    {% if talk.audio_cleaned %}#}
-            <script lang="javascript">
-                window.playerConfiguration = {
-                    "options": {
-                        "theme": "default",
-                    },
-                    "extensions": {
-                        "Share": {
-                            "showOnStart": false
-                        }
-                    },
-                    "episode": {
-                        "media": {
-                            "mp3": "{{ talk.audio_original.url }}"
-                        },
-                        "url": "  {{ request.build_absolute_uri }}",
-                        "description": "{{ talk.description }}", "title": "{{ talk.title }}"
-
-
-                    }
-                }
-            </script>
-            <script class="podigee-podcast-player"
-                    src="https://cdn.podigee.com/podcast-player/javascripts/podigee-podcast-player.js"
-                    data-configuration="playerConfiguration"></script>
-            <br><br><br>
-            <h4>Description</h4>
-            {{ talk.description   }}
+            {{ talk.description|safe }}
         </div>
         <div class="col-4">
             <div class="card">
                 <div class="card-body">
                     <p class="card-text">
-                        Created at: {{ talk.created_at|date }}
-                        <a href="{% url 'talk_edit' pk=talk.id %}">
-                            <div class="btn btn-primary">Edit talk</div>
+                        You can edit the title and description of this talk to help us organise
+                        the content and make it better searchable.
+                        <br><br>
+                        <a href="{% url 'talk_edit' pk=talk.id %}" class="btn btn-primary">
+                            Edit talk
                         </a>
                     </p>
                 </div>

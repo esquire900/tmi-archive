@@ -20,7 +20,7 @@
                 <div class="talk mb-3 pb-2 border-bottom">
                     <a href="{% url 'talk_view' pk=talk.id %}">
 
-                        <h3>{{ talk.title }}</h3>
+                        <h4>{{ talk.title }}</h4>
                     </a>
 
                     {{ talk.description | truncatewords:30 }}
@@ -30,7 +30,7 @@
             {% endfor %}
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card border-dark">
                 <div class="card-body">
                     <h5 class="card-title">The Mind Illuminated archive</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Meditation talks from Culadasa</h6>

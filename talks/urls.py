@@ -8,5 +8,7 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='talk_index'),
     path('talk/<int:pk>', views.DetailView.as_view(), name='talk_view'),
     path('talk/<int:pk>/edit', views.UpdateView.as_view(), name='talk_edit'),
-    # path('talk/')
+    path('accounts/profile/', views.profile_view, name='profile_view'),
+    path('contact', views.contact, name='contact')
+
 ]

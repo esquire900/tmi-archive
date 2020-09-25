@@ -4,6 +4,8 @@ from dynamic_filenames import FilePattern
 from django.core.validators import FileExtensionValidator
 from crum import get_current_user
 from django.contrib.auth import get_user_model
+from taggit.managers import TaggableManager
+from django.urls import reverse
 
 
 @reversion.register()
@@ -21,6 +23,7 @@ class Talk(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    tags = TaggableManager()
 
     def __str__(self):
         return self.title
@@ -32,3 +35,6 @@ class Talk(models.Model):
 
         res = super(Talk, self).save(*args, **kwargs)
         return res
+
+    def get_absolute_url(self):
+        return reverse('talk_view', kwargs={'pk': self.id})

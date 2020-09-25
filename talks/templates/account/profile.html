@@ -1,0 +1,24 @@
+{% extends "account/base.html" %}
+{% load account %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Profile" %}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-4 offset-4 pt-4">
+            <h2>Hi {% user_display user %}</h2>
+            Thanks for visiting out tmi-archive.com.
+            <br><br>
+            You can <a href="{% url 'talk_index' %}">view and listen to talks</a>, and edit them. This is still
+            an early project, please <a href="{% url 'contact' %}">contact us</a> if you have any ideas.
+            <br><br>
+            <hr>
+            <a href="{% url 'account_logout' %}">Logout</a>
+            <br>
+            <a href="{% url 'account_email' %}">Change email</a>
+            <a href=""></a>
+        </div>
+    </div>
+
+{% endblock %}

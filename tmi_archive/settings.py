@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'crispy_forms',
+    'taggit'
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SITE_ID = 1
@@ -83,9 +84,11 @@ TEMPLATES = [
         },
     },
 ]
-LOGIN_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/'
 WSGI_APPLICATION = 'tmi_archive.wsgi.application'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
+TAGGIT_CASE_INSENSITIVE = True
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 

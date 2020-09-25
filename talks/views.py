@@ -1,7 +1,10 @@
-from django.shortcuts import render
-from .models import Talk
-from django.views import generic
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.shortcuts import render
+from django.views import generic
+
+from .forms import TalkForm
+from .models import Talk
 
 
 class IndexView(generic.ListView):
@@ -24,7 +27,7 @@ class IndexView(generic.ListView):
         # Call the base implementation first to get a context
         context = super(IndexView, self).get_context_data(**kwargs)
         # Add in the publisher
-        context['search_query'] = self.request.GET.get('q')
+        context['search_query'] = self.request.GET.get('q') or ''
         return context
 
 
@@ -32,8 +35,36 @@ class DetailView(generic.DetailView):
     model = Talk
     template_name = 'talk/view.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        use_original_data = self.request.GET.get('original_audio') == 1
+
+        # this is ugly, i know
+        audio = False
+        if use_original_data and self.model.audio_original:
+            audio = self.model.audio_original
+        elif not use_original_data and self.model.audio_cleaned:
+            audio = self.model.audio_cleaned
+        if audio is False:
+            if self.model.audio_original:
+                audio = self.model.audio_original
+            elif self.model.audio_cleaned:
+                audio = self.model.audio_cleaned
+        context['audio'] = audio
+        return context
+
 
 class UpdateView(generic.UpdateView):
     model = Talk
     template_name = 'talk/edit.html'
-    fields = ['title', 'description']
+    form_class = TalkForm
+
+
+def contact(request):
+    return render(request, 'contact.html')
+
+
+@login_required()
+def profile_view(request):
+    return render(request, 'account/profile.html', {
+    })
