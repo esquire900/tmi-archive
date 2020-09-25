@@ -8,14 +8,15 @@
         TMI Archive | {% block title %}{% endblock %}
     </title>
 
-{#    {% bootstrap_css %}#}
+    {#    {% bootstrap_css %}#}
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
     <style>
-        body{
+        body {
             background: #f6f6f6;
         }
-        .jumbotron{
+
+        .jumbotron {
             background: white;
             border: 1px solid #e2e2e2;
         }
@@ -72,7 +73,7 @@
             </div>
             <div class="col-3 offset-3">
                 <a href="{% url 'account_login' %}">Login</a><br>
-                <a href="">Contact</a><br>
+                <a href="{% url 'contact' %}">Contact</a><br>
                 <a href="https://github.com/esquire900/tmi-archive">Source Code</a><br>
             </div>
         </div>
