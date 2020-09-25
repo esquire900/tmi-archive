@@ -24,7 +24,7 @@ SECRET_KEY = 'l5-&-&l@=ss_ss#g)a25(n8gdekki0$)z*4q6c%2^!r)_q^2mv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.178.72', '0.0.0.0']
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.178.72', '0.0.0.0', 'tmi-archive.com', 'www.tmi-archive.com']
 INTERNAL_IPS = ['127.0.0.1', '192.168.178.72', '0.0.0.0']
 
 # Application definition
