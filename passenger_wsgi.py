@@ -1,7 +1,7 @@
 import sys, os
 
 ApplicationDirectory = 'current/'
-ApplicationName = 'tmi-archive'
+ApplicationName = 'tmi_archive'
 VirtualEnvDirectory = '/var/www/vhosts/tmi-archive.com/httpdocs/current/.venv'
 VirtualEnv = os.path.join(os.getcwd(), VirtualEnvDirectory, 'bin', 'python')
 if sys.executable != VirtualEnv: os.execl(VirtualEnv, VirtualEnv, *sys.argv)
