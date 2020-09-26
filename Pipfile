@@ -28,6 +28,7 @@ django-backblaze-b2 = "*"
 django-environ = "*"
 python-dotenv = "*"
 django-tinymce = "*"
+importlib-metadata = "*"
 
 [requires]
 python_version = "3.8"

@@ -36,7 +36,7 @@ task('deploy:install_pipenv', function () {
 })->desc('custom settings shit enzo');
 
 task('deploy:custom_stuff', function () {
-    upload('./tmi_archive/settings_live.py', '{{release_path}}/tmi_archive/settings_local.py');
+    upload('./.env.live', '{{release_path}}/.env');
 })->desc('custom settings shit enzo');
 
 task('deploy:run_migrations', function () {
