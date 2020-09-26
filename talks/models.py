@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.urls import reverse
-from django_backblaze_b2 import BackblazeB2Storage
 from dynamic_filenames import FilePattern
 from taggit.managers import TaggableManager
 from tinymce.models import HTMLField
