@@ -39,17 +39,11 @@ class DetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         use_original_data = self.request.GET.get('original_audio') == 1
 
-        # this is ugly, i know
         audio = False
-        if use_original_data and self.model.audio_original:
-            audio = self.model.audio_original
-        elif not use_original_data and self.model.audio_cleaned:
-            audio = self.model.audio_cleaned
-        if audio is False:
-            if self.model.audio_original:
-                audio = self.model.audio_original
-            elif self.model.audio_cleaned:
-                audio = self.model.audio_cleaned
+        if not use_original_data and self.get_object().audio_cleaned is not None:
+            audio = self.get_object().audio_cleaned
+        elif self.get_object().audio_original is not None:
+            audio = self.get_object().audio_original
         context['audio'] = audio
         return context
 

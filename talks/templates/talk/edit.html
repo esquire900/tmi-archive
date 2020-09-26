@@ -5,14 +5,13 @@
 {% block content %}
     <nav aria-label="breadcrumb" class="pt-2">
         <ol class="breadcrumb">
-
             <li class="breadcrumb-item">
                 <a href="{% url 'talk_index' %}">Home</a>
             </li>
             <li class="breadcrumb-item">
                 <a href="{% url 'talk_view' pk=talk.id %}">Talk {{ talk.id }}</a>
             </li>
-            <li class="breadcrumb-item">Edit</li>
+            <li class="breadcrumb-item active">Edit</li>
         </ol>
     </nav>
 

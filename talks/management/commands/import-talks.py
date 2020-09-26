@@ -13,7 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         df = pd.read_json('./_other/scraper/articles-selenium.json')
         audio_path = '/home/script/_tmp/dhamma'
-        for i, row in df.iloc[:].iterrows():
+        for i, row in df.iloc[3:].iterrows():
             title = row.title
             content = BeautifulSoup(row.article, "html.parser").find('div', {'class': 'entry-content'})
             content = str(content).replace('<div class="entry-content">', '')[:-6]
