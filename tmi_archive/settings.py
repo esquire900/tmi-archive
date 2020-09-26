@@ -132,18 +132,16 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
-BACKBLAZE_CONFIG = {
-    "application_key_id": os.getenv("BACKBLAZE_KEY_ID"),
-    "application_key": os.getenv("BACKBLAZE_KEY"),
-}
-
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 AWS_ACCESS_KEY_ID = os.getenv('B2_USER')
 AWS_SECRET_ACCESS_KEY = os.getenv('B2_KEY')
 AWS_STORAGE_BUCKET_NAME = os.getenv('B2_BUCKET')
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AWS_S3_CUSTOM_DOMAIN = 'f002.backblazeb2.com/file/tmi-archive'
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
