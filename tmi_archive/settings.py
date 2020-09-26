@@ -12,17 +12,17 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
+import sentry_sdk
+from dotenv import load_dotenv
+from sentry_sdk.integrations.django import DjangoIntegration
+
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'l5-&-&l@=ss_ss#g)a25(n8gdekki0$)z*4q6c%2^!r)_q^2mv'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['127.0.0.1', '192.168.178.72', '0.0.0.0', 'tmi-archive.com', 'www.tmi-archive.com']
 INTERNAL_IPS = ['127.0.0.1', '192.168.178.72', '0.0.0.0']
@@ -131,7 +131,31 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+BACKBLAZE_CONFIG = {
+    "application_key_id": os.getenv("BACKBLAZE_KEY_ID"),
+    "application_key": os.getenv("BACKBLAZE_KEY"),
+}
 
-# AWS_S3_ENDPOINT_URL = 'https://tmi-dhamma-archive.s3.eu-central-1.amazonaws.com/'
-from .settings_local import *
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASS'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+    }
+
+}
+
+if os.getenv('SENTRY_DSN'):
+    sentry_sdk.init(
+        dsn=os.getenv('SENTRY_DSN'),
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        send_default_pii=True
+    )
+
+SECURE_SSL_REDIRECT = False

@@ -22,6 +22,11 @@ paramiko = "*"
 django-crispy-forms = "*"
 django-taggit = "*"
 django-allauth = "*"
+pandas = "*"
+apache-libcloud = "*"
+django-backblaze-b2 = "*"
+django-environ = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.8"
