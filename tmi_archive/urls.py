@@ -20,4 +20,5 @@ urlpatterns = [
     path('', include('talks.urls')),
     path('admin/', admin.site.urls),
     path("accounts/", include("allauth.urls")),
+    path('tinymce/', include('tinymce.urls')),
 ]

@@ -4,19 +4,20 @@ from django.contrib.auth import get_user_model
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.urls import reverse
+from django_backblaze_b2 import BackblazeB2Storage
 from dynamic_filenames import FilePattern
 from taggit.managers import TaggableManager
-
+from tinymce.models import HTMLField
 
 @reversion.register()
 class Talk(models.Model):
     title = models.CharField(max_length=300, null=False)
-    description = models.TextField(null=True)
+    description = HTMLField(null=True)
     audio_original = models.FileField(null=True, blank=True,
-                                      upload_to=FilePattern(filename_pattern='/audio/original/{uuid:.30base32}.mp3'),
+                                      upload_to=FilePattern(filename_pattern='audio/original/{uuid}.mp3'),
                                       validators=[FileExtensionValidator(['mp3'])])
     audio_cleaned = models.FileField(null=True, blank=True,
-                                     upload_to=FilePattern(filename_pattern='/audio/original/{uuid:.30base32}.mp3'),
+                                     upload_to=FilePattern(filename_pattern='audio/cleaned/{uuid}.mp3'),
                                      validators=[FileExtensionValidator(['mp3'])])
     created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by')
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='updated_by')

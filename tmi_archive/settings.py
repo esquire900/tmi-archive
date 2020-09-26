@@ -16,7 +16,7 @@ import sentry_sdk
 from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
 
-load_dotenv()
+load_dotenv(interpolate=False)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'crispy_forms',
-    'taggit'
+    'taggit',
+    'tinymce',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SITE_ID = 1
@@ -136,8 +137,13 @@ BACKBLAZE_CONFIG = {
     "application_key": os.getenv("BACKBLAZE_KEY"),
 }
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
+AWS_ACCESS_KEY_ID = os.getenv('B2_USER')
+AWS_SECRET_ACCESS_KEY = os.getenv('B2_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('B2_BUCKET')
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+AWS_S3_CUSTOM_DOMAIN = 'f002.backblazeb2.com/file/tmi-archive'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

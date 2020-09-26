@@ -27,6 +27,7 @@ apache-libcloud = "*"
 django-backblaze-b2 = "*"
 django-environ = "*"
 python-dotenv = "*"
+django-tinymce = "*"
 
 [requires]
 python_version = "3.8"

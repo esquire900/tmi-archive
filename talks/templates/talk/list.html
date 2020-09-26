@@ -13,7 +13,7 @@
             {% if search_query %}
                 <h4>Results for query "{{ search_query }}"</h4>
             {% endif %}
-            <form action="{% url 'talk_index' %}" method="get">
+            <form action="{% url 'talk_index' %}" method="get" class="pb-4">
                 <input name="q" type="text" placeholder="Search..." value="{{ search_query }}" class="form-control">
             </form>
             {% for talk in object_list %}
@@ -23,7 +23,7 @@
                         <h4>{{ talk.title }}</h4>
                     </a>
 
-                    {{ talk.description | truncatewords:30 }}
+                    {{ talk.description | truncatewords_html:30 | safe }}
 
                 </div>
 
