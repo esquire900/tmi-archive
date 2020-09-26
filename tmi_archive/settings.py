@@ -16,7 +16,7 @@ import sentry_sdk
 from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
 
-load_dotenv(interpolate=False)
+load_dotenv(interpolate=False, override=True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -137,11 +137,10 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_ACCESS_KEY_ID = os.getenv('B2_USER')
 AWS_SECRET_ACCESS_KEY = os.getenv('B2_KEY')
 AWS_STORAGE_BUCKET_NAME = os.getenv('B2_BUCKET')
-AWS_S3_CUSTOM_DOMAIN = 'f002.backblazeb2.com/file/tmi-archive'
+AWS_S3_ENDPOINT_URL = 'https://tmi-archive.s3.us-west-002.backblazeb2.com'
+AWS_S3_CUSTOM_DOMAIN = 'f002.backblazeb2.com/file/tmi-archive/tmi-archive'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

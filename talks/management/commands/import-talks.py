@@ -13,10 +13,17 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         df = pd.read_json('./_other/scraper/articles-selenium.json')
         audio_path = '/home/script/_tmp/dhamma'
-        for i, row in df.iloc[2:3].iterrows():
+        for i, row in df.iloc[:].iterrows():
             title = row.title
-            content = BeautifulSoup(row.article).find('div', {'class': 'entry-content'})
+            content = BeautifulSoup(row.article, "html.parser").find('div', {'class': 'entry-content'})
             content = str(content).replace('<div class="entry-content">', '')[:-6]
+            content = BeautifulSoup(content, "html.parser")
+
+            for div in content.find_all("div", {'class': 'powerpress_player'}):
+                div.decompose()
+            for div in content.find_all("p", {'class': 'powerpress_links'}):
+                div.decompose()
+            content = str(content)
             talk = Talk(
                 title=title,
                 description=content,
@@ -35,8 +42,7 @@ class Command(BaseCommand):
                     orig_audio = File(open(orig_audio, 'rb'))
                     talk.audio_original.save('new', orig_audio)
 
-                # clean_audio = '{}/mp3-cleaned/{}'.format(audio_path, file_name)
-                # if os.path.exists(clean_audio):
-                #     print(clean_audio)
-                #     talk.audio_cleaned.name = clean_audio
-
+                clean_audio = '{}/mp3-cleaned/{}'.format(audio_path, file_name)
+                if os.path.exists(clean_audio):
+                    clean_audio = File(open(clean_audio, 'rb'))
+                    talk.audio_cleaned.save('new', clean_audio)
