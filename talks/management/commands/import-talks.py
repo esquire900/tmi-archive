@@ -15,6 +15,11 @@ class Command(BaseCommand):
         audio_path = '/home/script/_tmp/dhamma'
         for i, row in df.iloc[3:].iterrows():
             title = row.title
+
+            existing = Talk.objects.filter(title=title).count()
+            if existing > 0:
+                continue
+            print(title)
             content = BeautifulSoup(row.article, "html.parser").find('div', {'class': 'entry-content'})
             content = str(content).replace('<div class="entry-content">', '')[:-6]
             content = BeautifulSoup(content, "html.parser")

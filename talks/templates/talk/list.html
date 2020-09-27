@@ -2,11 +2,6 @@
 {% load static %}
 {% load bootstrap4 %}
 {% block content %}
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-4" style="line-height: 8px"><i>The Mind Illuminated</i> archive</h1>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-md-8">
@@ -23,7 +18,7 @@
                         <h4>{{ talk.title }}</h4>
                     </a>
 
-                    {{ talk.description | truncatewords_html:30 | safe }}
+                    {{ talk.description | striptags | truncatewords:30 }}
 
                 </div>
 
@@ -37,13 +32,13 @@
                     <p class="card-text">tmi-archive.com contains talks from <a href="http://culadasa.com"
                                                                                 target="_blank">Culadasa</a>
                         and is
-                        inspired by the wonderful "The Mind Illuminated" book.
+                        names after his wonderful book.
                         <br>
                         <br>
-                        Audio files are cleaned, and anybody can <a href="{% url 'account_signup' %}">join</a> and help
-                        organizing talks.
+                        Audio files are cleaned, and anybody can <a href="{% url 'account_signup' %}">help
+                            organise</a> talks.
                         <br><br>
-                        This is an early stage project, and any feedback or participation is more then welcome.
+                        This is an early stage project, and any <a href="{% url 'contact' %}">feedback</a> or participation is more then welcome.
                     </p>
                 </div>
 
