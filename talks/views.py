@@ -44,6 +44,8 @@ class DetailView(generic.DetailView):
             audio = self.get_object().audio_cleaned
         elif self.get_object().audio_original is not None:
             audio = self.get_object().audio_original
+        if not hasattr(audio, 'url'):
+            audio = False
         context['audio'] = audio
         return context
 
