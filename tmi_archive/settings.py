@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 
 import sentry_sdk
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
 
 load_dotenv(find_dotenv(), interpolate=False, override=True)

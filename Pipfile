@@ -25,6 +25,7 @@ pandas = "*"
 python-dotenv = "*"
 django-tinymce = "*"
 importlib-metadata = "*"
+django-backblaze-b2 = "*"
 
 [requires]
 python_version = "3.8"
