@@ -26,6 +26,7 @@ python-dotenv = "*"
 django-tinymce = "*"
 importlib-metadata = "*"
 django-backblaze-b2 = "*"
+typing-extensions = "*"
 
 [requires]
 python_version = "3.8"
