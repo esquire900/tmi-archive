@@ -36,7 +36,7 @@ task('deploy:install_pipenv', function () {
 })->desc('custom settings shit enzo');
 
 task('deploy:custom_stuff', function () {
-    upload('./.env.live', '{{release_path}}/../.env');
+    upload('./.env.live', '{{release_path}}/../../.env');
 })->desc('custom settings shit enzo');
 
 task('deploy:run_migrations', function () {
