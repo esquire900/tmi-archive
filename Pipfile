@@ -27,6 +27,7 @@ django-tinymce = "*"
 importlib-metadata = "*"
 django-backblaze-b2 = "*"
 typing-extensions = "*"
+django-admin-sortable2 = "*"
 
 [requires]
 python_version = "3.8"
