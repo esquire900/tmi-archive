@@ -41,3 +41,28 @@ class Talk(models.Model):
 
     def get_absolute_url(self):
         return reverse('talk_view', kwargs={'pk': self.id})
+
+
+class PlaylistTalk(models.Model):
+    playlist = models.ForeignKey('Playlist', on_delete=models.CASCADE)
+    talk = models.ForeignKey('Talk', on_delete=models.CASCADE)
+    order = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f'{self.playlist}: {self.talk}'
+
+
+class Playlist(models.Model):
+    title = models.CharField(max_length=300)
+    description = HTMLField(null=True)
+    first_recording_date = models.DateField()
+    talks = models.ManyToManyField(Talk, through='PlaylistTalk')
+
+    class Meta:
+        ordering = ['-first_recording_date']
+
+    def __str__(self):
+        return self.title
