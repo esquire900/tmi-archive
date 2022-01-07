@@ -61,6 +61,12 @@ class UpdateView(generic.UpdateView):
     form_class = TalkForm
 
 
+def playlist_index(request):
+    return render(
+        request, 'playlist_index.html', {'playlists': Playlist.objects.all()}
+    )
+
+
 def playlist_view(request, pk):
     playlist = get_object_or_404(Playlist, pk=pk)
     return render(request, 'playlist.html', {'playlist': playlist})
