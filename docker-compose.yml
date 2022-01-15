@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - 127.0.0.1:8000:8000
+    environment:
+      SECRET_KEY: not-so-secret
+      DEBUG: 'true'
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: tmi-archive
+      DB_PASS: tmi-archive
+      DB_NAME: tmi-archive
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: tmi-archive
+      POSTGRES_PASSWORD: tmi-archive
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
