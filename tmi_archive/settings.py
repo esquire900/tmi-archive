@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'reversion',
-    'reversion_compare',
+    # 'reversion_compare',
     'talks',
     'bootstrap4',
     'allauth',

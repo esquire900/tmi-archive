@@ -8,15 +8,18 @@ from dynamic_filenames import FilePattern
 from taggit.managers import TaggableManager
 from tinymce.models import HTMLField
 
+
 @reversion.register()
 class Talk(models.Model):
     title = models.CharField(max_length=300, null=False)
     description = HTMLField(null=True)
     audio_original = models.FileField(null=True, blank=True,
-                                      upload_to=FilePattern(filename_pattern='audio/original/tmi-archive-{uuid:.12base32}.mp3'),
+                                      upload_to=FilePattern(
+                                          filename_pattern='audio/original/tmi-archive-{uuid:.12base32}.mp3'),
                                       validators=[FileExtensionValidator(['mp3'])])
     audio_cleaned = models.FileField(null=True, blank=True,
-                                     upload_to=FilePattern(filename_pattern='audio/cleaned/tmi-archive-{uuid:.12base32}.mp3'),
+                                     upload_to=FilePattern(
+                                         filename_pattern='audio/cleaned/tmi-archive-{uuid:.12base32}.mp3'),
                                      validators=[FileExtensionValidator(['mp3'])])
     created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by')
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='updated_by')
@@ -48,6 +51,12 @@ class PlaylistTalk(models.Model):
     talk = models.ForeignKey('Talk', on_delete=models.CASCADE)
     order = models.PositiveSmallIntegerField(default=0)
 
+    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by_playlist')
+    updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='updated_by_playlist')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         ordering = ['order']
 
@@ -60,6 +69,12 @@ class Playlist(models.Model):
     description = HTMLField(null=True)
     first_recording_date = models.DateField()
     talks = models.ManyToManyField(Talk, through='PlaylistTalk')
+
+    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by_playlist_talk')
+    updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='updated_by_playlist_talk')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-first_recording_date']

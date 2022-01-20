@@ -35,17 +35,17 @@
                                     data-configuration="playerConfiguration"></script>
                             <small>
                                 {% if talk.audio_cleaned %}
-                                    {% ifequal audio.url talk.audio_cleaned.url %}
+                                    {% if audio.url == talk.audio_cleaned.url %}
                                         This is the automatically cleaned audio file.
                                         <a href="?original_audio=1">Click here to listen to the original audio.</a>
-                                    {% endifequal %}
+                                    {% endif %}
                                 {% endif %}
                                 {% if talk.audio_original %}
-                                    {% ifequal audio.url talk.audio_original.url %}
+                                    {% if audio.url == talk.audio_original.url %}
                                         This is the original audio.
                                         <a href="?original_audio=0">Click here to listen to the cleaned audio.</a>
 
-                                    {% endifequal %}
+                                    {% endif %}
                                 {% endif %}
                             </small>
 
