@@ -1,0 +1,98 @@
+{% extends 'main_ui.html' %}
+{% load static %}
+{% load fullurl %}
+{% block content %}
+    <nav aria-label="breadcrumb" class="pt-2">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'talk_index' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">
+                Talk {{ talk.title }}
+            </li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-text">
+                        <h3 class="display pt-2 pb-2">{{ talk.title }}</h3>
+
+                        {% if audio.url %}
+                            <script lang="javascript">
+                                {#chaptermarks#}
+                                window.playerConfiguration = {
+                                    "options": {
+                                        "theme": "default",
+                                        "startPanels": ["EpisodeInfo", "Transcript"]
+                                    },
+                                    "extensions": {
+                                        "EpisodeInfo": {
+                                            "showOnStart": true
+                                        },
+                                        "Playlist": {
+                                            "showOnStart": true
+                                        },
+                                        "Transcript": {
+                                            "showOnStart": true
+                                        }
+                                    },
+                                    "episode": {
+                                        "media": {
+                                            "mp3": "{{ audio.url }}"
+                                        },
+                                        "url": "{{ request.build_absolute_uri }}",
+                                        "title": "{{ talk.title }}",
+                                        "transcript": "{% fullurl 'talk_transcription' pk=talk.id %}",
+                                    }
+                                }
+                            </script>
+                            <script class="podigee-podcast-player"
+                                    src="https://cdn.podigee.com/podcast-player/javascripts/podigee-podcast-player.js"
+                                    data-configuration="playerConfiguration"></script>
+                            <small>
+                                {% if talk.audio_cleaned %}
+                                    {% if audio.url == talk.audio_cleaned.url %}
+                                        This is the automatically cleaned audio file.
+                                        <a href="?original_audio=1">Click here to listen to the original audio.</a>
+                                    {% endif %}
+                                {% endif %}
+                                {% if talk.audio_original %}
+                                    {% if audio.url == talk.audio_original.url %}
+                                        This is the original audio.
+                                        <a href="?original_audio=0">Click here to listen to the cleaned audio.</a>
+
+                                    {% endif %}
+                                {% endif %}
+                            </small>
+
+                        {% else %}
+                            There is no audio for this talk.
+                        {% endif %}
+
+                        <hr>
+                        {{ talk.description|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text">
+                        You can edit the title and description of this talk to help us organise
+                        the content and make it better searchable.
+                        <br><br>
+                        <a href="{% url 'talk_edit' pk=talk.id %}" class="btn btn-primary">
+                            Edit talk
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

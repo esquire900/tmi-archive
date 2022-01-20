@@ -31,6 +31,7 @@ django-admin-sortable2 = "*"
 django-select2 = "*"
 "backports.zoneinfo" = "*"
 "backports.weakref" = "*"
+django-fullurl = "*"
 
 [requires]
 python_version = "3.8"

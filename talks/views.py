@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views import generic
@@ -48,12 +49,23 @@ class DetailView(generic.DetailView):
         elif self.get_object().audio_original is not None:
             audio = self.get_object().audio_original
         try:
-            if audio is not False:
-                audio.url
+            not_used = audio.url
         except ValueError:
             audio = False
         context['audio'] = audio
         return context
+
+
+class NewDetailView(DetailView):
+    model = Talk
+    template_name = 'talk/view_new.html'
+
+
+def talk_transcription(request, pk):
+    talk = get_object_or_404(Talk, pk=pk)
+    response = HttpResponse(talk.transcription, content_type="text/plain", charset='utf-8')
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
 
 
 class UpdateView(generic.UpdateView):

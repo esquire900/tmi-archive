@@ -30,6 +30,9 @@ class Talk(models.Model):
     auto_add_user_data = True
     tags = TaggableManager()
 
+    transcription = models.TextField(null=True)
+    transcription_deepgram = models.TextField(null=True)
+
     def __str__(self):
         return self.title
 

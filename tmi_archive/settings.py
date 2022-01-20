@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'taggit',
     'tinymce',
     'adminsortable2',
-    'django_select2'
+    'django_select2',
+    'fullurl'
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SITE_ID = 1
