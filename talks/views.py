@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views import generic
 
-from .forms import TalkForm
+from .forms import TalkForm, PlaylistForm
 from .models import Talk
 from .models import Playlist
 
@@ -61,15 +61,27 @@ class UpdateView(generic.UpdateView):
     form_class = TalkForm
 
 
+class PlaylistUpdateView(generic.UpdateView):
+    model = Playlist
+    template_name = 'playlist/edit.html'
+    form_class = PlaylistForm
+
+
+class PlaylistCreateView(generic.UpdateView):
+    model = Playlist
+    template_name = 'playlist/create.html'
+    form_class = PlaylistForm
+
+
 def playlist_index(request):
     return render(
-        request, 'playlist_index.html', {'playlists': Playlist.objects.all()}
+        request, 'playlist/index.html', {'playlists': Playlist.objects.all()}
     )
 
 
 def playlist_view(request, pk):
     playlist = get_object_or_404(Playlist, pk=pk)
-    return render(request, 'playlist.html', {'playlist': playlist})
+    return render(request, 'playlist/view.html', {'playlist': playlist})
 
 
 def contact(request):

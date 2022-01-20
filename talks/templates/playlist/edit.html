@@ -1,0 +1,19 @@
+{% extends 'main_ui.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <nav aria-label="breadcrumb" class="pt-2">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'playlist_index' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'playlist_view' pk=playlist.id %}">Talk {{ playlist.id }}</a>
+            </li>
+            <li class="breadcrumb-item active">Edit</li>
+        </ol>
+    </nav>
+
+    {% crispy form %}
+{% endblock %}

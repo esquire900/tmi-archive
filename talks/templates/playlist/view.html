@@ -11,7 +11,7 @@
                 <a href="{% url 'playlist_index' %}">Playlists</a>
             </li>
             <li class="breadcrumb-item active">
-                Playlist {{ playlist.id }}
+                Playlist {{ playlist.title }}
             </li>
         </ol>
     </nav>
@@ -21,20 +21,25 @@
                 <div class="card-body">
                     <div class="card-text">
                         {{ playlist.description|safe }}
+                        <ol>
+                            {% for talk in playlist.talks.all %}
+                                <li>
+                                    <a href="{% url 'talk_view' pk=talk.id %}">{{ talk }}</a>
+                                </li>
+                            {% endfor %}
+                        </ol>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-8">
-            <ol>
-                {% for talk in playlist.talks.all %}
-                <li>
-                    <a href="{% url 'talk_view' pk=talk.id %}">{{ talk }}</a>
-                </li>
-                {% endfor %}
-            </ol>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'playlist_edit' pk=playlist.id %}" class="btn btn-primary">
+                        Edit Playlist
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'main_ui.html' %}
+{% load static %}
+{% block content %}
+    <div class="row">
+        <div class="col-8">
+            <nav aria-label="breadcrumb" class="pt-2">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'talk_index' %}">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        Playlists
+                    </li>
+                </ol>
+            </nav>
+            {% for playlist in playlists %}
+
+                <div class="talk mb-3 pb-2 border-bottom">
+                    <a href="{% url 'playlist_view' pk=playlist.id %}"><h4>{{ playlist.title }}</h4></a>
+                    {{ playlist.description | striptags | truncatewords:30 }}
+                    <br>
+                    Number of talks: {{ playlist.talks.count }}
+                </div>
+
+            {% endfor %}
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Playlists</h2>
+                    Playlists are collections of talks.
+                    <a href="{% url 'playlist_create' %}" class="btn btn-primary">
+                        Create Playlist
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

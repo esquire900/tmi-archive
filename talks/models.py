@@ -46,24 +46,6 @@ class Talk(models.Model):
         return reverse('talk_view', kwargs={'pk': self.id})
 
 
-class PlaylistTalk(models.Model):
-    playlist = models.ForeignKey('Playlist', on_delete=models.CASCADE)
-    talk = models.ForeignKey('Talk', on_delete=models.CASCADE)
-    order = models.PositiveSmallIntegerField(default=0)
-
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by_playlist')
-    updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='updated_by_playlist')
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['order']
-
-    def __str__(self):
-        return f'{self.playlist}: {self.talk}'
-
-
 class Playlist(models.Model):
     title = models.CharField(max_length=300)
     description = HTMLField(null=True)
@@ -84,3 +66,21 @@ class Playlist(models.Model):
 
     def get_absolute_url(self):
         return reverse('playlist_view', kwargs={'pk': self.id})
+
+
+class PlaylistTalk(models.Model):
+    playlist = models.ForeignKey('Playlist', on_delete=models.CASCADE)
+    talk = models.ForeignKey('Talk', on_delete=models.CASCADE)
+    order = models.PositiveSmallIntegerField(default=0)
+
+    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by_playlist')
+    updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='updated_by_playlist')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f'{self.playlist}: {self.talk}'
