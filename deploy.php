@@ -32,7 +32,7 @@ set('repository', 'https://esquire900:{{github_token}}@github.com/esquire900/tmi
 
 
 task('deploy:install_pipenv', function () {
-    run('cd {{release_path}} && export PIPENV_VENV_IN_PROJECT=1 && /usr/local/bin/pipenv install --python /usr/bin/python');
+    run('cd {{release_path}} && export PIPENV_VENV_IN_PROJECT=1 && /usr/local/bin/pipenv install --python /usr/bin/python3.8');
 })->desc('custom settings shit enzo');
 
 task('deploy:custom_stuff', function () {
@@ -40,7 +40,7 @@ task('deploy:custom_stuff', function () {
 })->desc('custom settings shit enzo');
 
 task('deploy:run_migrations', function () {
-    $python_loc = '{{release_path}}/.venv/bin/python';
+    $python_loc = '{{release_path}}/.venv/bin/python3.8';
     run($python_loc . " {{release_path}}/manage.py migrate");
     run("cd {{release_path}} && " . $python_loc . " manage.py collectstatic --noinput");
 })->desc('migrated');

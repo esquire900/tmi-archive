@@ -29,6 +29,8 @@ django-backblaze-b2 = "*"
 typing-extensions = "*"
 django-admin-sortable2 = "*"
 django-select2 = "*"
+"backports.zoneinfo" = "*"
+"backports.weakref" = "*"
 
 [requires]
 python_version = "3.8"
