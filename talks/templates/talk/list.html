@@ -18,7 +18,7 @@
                         <h4>{{ talk.title }}</h4>
                     </a>
 
-                    {{ talk.description | striptags | truncatewords:30 }}
+                    {{ talk.description | striptags | truncatewords:30 | safe}}
 
                 </div>
 
