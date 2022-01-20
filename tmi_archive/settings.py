@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'taggit',
     'tinymce',
+    'adminsortable2',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SITE_ID = 1

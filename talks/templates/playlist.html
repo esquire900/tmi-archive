@@ -1,0 +1,40 @@
+{% extends 'main_ui.html' %}
+{% load static %}
+{% block content %}
+    <h2 class="display pt-2 pb-2">Playlist: {{ playlist.title }}</h2>
+    <nav aria-label="breadcrumb" class="pt-2">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'talk_index' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'playlist_index' %}">Playlists</a>
+            </li>
+            <li class="breadcrumb-item active">
+                Playlist {{ playlist.id }}
+            </li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-text">
+                        {{ playlist.description|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <ol>
+                {% for talk in playlist.talks.all %}
+                <li>
+                    <a href="{% url 'talk_view' pk=talk.id %}">{{ talk }}</a>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+{% endblock %}
