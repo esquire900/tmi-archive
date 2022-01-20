@@ -64,7 +64,7 @@ class NewDetailView(DetailView):
 def talk_transcription(request, pk):
     talk = get_object_or_404(Talk, pk=pk)
     response = HttpResponse(talk.transcription, content_type="text/plain", charset='utf-8')
-    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Origin"] = "https://tmi-archive.com"
     return response
 
 
