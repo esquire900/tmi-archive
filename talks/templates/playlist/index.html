@@ -1,18 +1,19 @@
 {% extends 'main_ui.html' %}
 {% load static %}
 {% block content %}
+    <nav aria-label="breadcrumb" class="pt-2">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'talk_index' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">
+                Playlists
+            </li>
+        </ol>
+    </nav>
     <div class="row">
         <div class="col-8">
-            <nav aria-label="breadcrumb" class="pt-2">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{% url 'talk_index' %}">Home</a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        Playlists
-                    </li>
-                </ol>
-            </nav>
+
             {% for playlist in playlists %}
 
                 <div class="talk mb-3 pb-2 border-bottom">
@@ -28,7 +29,8 @@
             <div class="card">
                 <div class="card-body">
                     <h2>Playlists</h2>
-                    Playlists are collections of talks.
+                    Playlists can help to organize talks.
+                    <br><br>
                     <a href="{% url 'playlist_create' %}" class="btn btn-primary">
                         Create Playlist
                     </a>

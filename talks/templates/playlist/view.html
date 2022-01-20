@@ -1,7 +1,6 @@
 {% extends 'main_ui.html' %}
 {% load static %}
 {% block content %}
-    <h2 class="display pt-2 pb-2">Playlist: {{ playlist.title }}</h2>
     <nav aria-label="breadcrumb" class="pt-2">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -11,7 +10,7 @@
                 <a href="{% url 'playlist_index' %}">Playlists</a>
             </li>
             <li class="breadcrumb-item active">
-                Playlist {{ playlist.title }}
+                {{ playlist.title }}
             </li>
         </ol>
     </nav>
@@ -19,6 +18,8 @@
         <div class="col-8">
             <div class="card">
                 <div class="card-body">
+                    <h3 class="display pt-2 pb-2">{{ playlist.title }}</h3>
+
                     <div class="card-text">
                         {{ playlist.description|safe }}
                         <ol>
@@ -35,6 +36,9 @@
         <div class="col-4">
             <div class="card">
                 <div class="card-body">
+                    You can edit this playlist or create a <a href="{% url 'playlist_create' %}">new one</a>. Please be
+                    mindful when changing someone else's playlist.
+                    <br><br>
                     <a href="{% url 'playlist_edit' pk=playlist.id %}" class="btn btn-primary">
                         Edit Playlist
                     </a>

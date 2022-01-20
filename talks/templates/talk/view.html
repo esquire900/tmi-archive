@@ -1,14 +1,13 @@
 {% extends 'main_ui.html' %}
 {% load static %}
 {% block content %}
-    <h2 class="display pt-2 pb-2">Talk: {{ talk.title }}</h2>
     <nav aria-label="breadcrumb" class="pt-2">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{% url 'talk_index' %}">Home</a>
             </li>
             <li class="breadcrumb-item active">
-                 Talk {{ talk.id }}
+                 Talk  {{ talk.title }}
             </li>
         </ol>
     </nav>
@@ -17,6 +16,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-text">
+                        <h3 class="display pt-2 pb-2">{{ talk.title }}</h3>
+
                         {% if audio.url %}
                             <script lang="javascript">
                                 window.playerConfiguration = {

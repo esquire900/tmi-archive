@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 
 from .forms import TalkForm, PlaylistForm
 from .models import Talk
