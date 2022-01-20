@@ -68,7 +68,7 @@ class PlaylistUpdateView(generic.UpdateView):
     form_class = PlaylistForm
 
 
-class PlaylistCreateView(generic.UpdateView):
+class PlaylistCreateView(generic.CreateView):
     model = Playlist
     template_name = 'playlist/create.html'
     form_class = PlaylistForm

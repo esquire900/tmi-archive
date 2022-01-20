@@ -49,7 +49,7 @@ class Talk(models.Model):
 class Playlist(models.Model):
     title = models.CharField(max_length=300)
     description = HTMLField(null=True)
-    first_recording_date = models.DateField()
+    first_recording_date = models.DateField(null=True, blank=True)
     talks = models.ManyToManyField(Talk, through='PlaylistTalk')
 
     created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by_playlist_talk')
