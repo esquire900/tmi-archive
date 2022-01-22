@@ -28,6 +28,9 @@ ALLOWED_HOSTS = ['127.0.0.1', '192.168.178.72', '0.0.0.0', 'tmi-archive.com', 'w
                  'https://tmi-archive.com']
 INTERNAL_IPS = ['127.0.0.1', '192.168.178.72', '0.0.0.0']
 
+CSRF_TRUSTED_ORIGINS = ['tmi-archive.com', 'www.tmi-archive.com',
+                 'https://tmi-archive.com', 'http://tmi-archive.com']
+
 # Application definition
 
 INSTALLED_APPS = [
