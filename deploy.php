@@ -8,7 +8,7 @@ date_default_timezone_set("UTC");
 
 set('keep_releases', 2);
 set('shared_dirs', ['runtime', '__pycache__']);
-set('writable_dirs', ['runtime', '../static']);
+set('writable_dirs', ['runtime', '../static', 'static/mp3/']);
 set('writable_mode', 'chmod');
 set('writable_use_sudo', false);
 set('writable_chmod_mode', '777');

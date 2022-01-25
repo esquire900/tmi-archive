@@ -9,7 +9,7 @@ import asyncio
 def convert_deepgram_transcription(response):
     result = ['[00:00:00.0 Intro]']
     last_word = None
-    first_word =True
+    first_word = True
     current_sentence = []
     for item in response['results']['channels'][0]['alternatives'][0]['words']:
         #   item looks like
@@ -35,18 +35,41 @@ def convert_deepgram_transcription(response):
             current_sentence.append(f'[0{dt} @speaker_{item["speaker"]}]')
         current_sentence.append(item['punctuated_word'])
         last_word = item['punctuated_word']
-    return "\r\n".join(result) #same, needed for the audioplayer
+    return "\r\n".join(result)  # same, needed for the audioplayer
 
 
 class Command(BaseCommand):
     help = 'One-off script to import all scraped talks and audio-files'
 
     def handle(self, *args, **options):
-        talk_id = 9
-        transcription_file = '/data/projects/tmi_archive/tmi-archive/transcriptions/tmi-archive-5LVKWJMONVAU.json'
-        transcription = json.load(open(transcription_file))
+        from deepgram import Deepgram  # manually install deepgram-sdk
+        import asyncio, json
+        import os
+
+        TOKEN = os.getenv("DEEPGRAM_API_TOKEN")
+        dg_client = Deepgram(TOKEN)
+        base_path = '/var/www/vhosts/tmi-archive.com/mp3'
+
+        talk_id = 24
         talk = Talk.objects.get(id=talk_id)
-        talk.transcription_deepgram = json.dumps(transcription)
-        talk.transcription = convert_deepgram_transcription(transcription)
-        talk.auto_add_user_data = False
-        talk.save()
+
+        fname = str(talk.audio_cleaned).split("/")[-1]
+        mp3_path = f'{base_path}/mp3-cleaned/{fname}'
+        transcription_path = f'{base_path}/transcriptions/{fname}.json'
+        print(mp3_path, transcription_path)
+        if not os.path.exists(transcription_path):
+            async def do(mp3_path_arg, transcription_path_arg):
+                with open(mp3_path_arg, 'rb') as audio:
+                    source = {'buffer': audio, 'mimetype': 'audio/mp3'}
+                    response = await dg_client.transcription.prerecorded(source, {'punctuate': True, 'diarize': True, })
+                    with open(transcription_path_arg, 'w') as f:
+                        json.dump(response, f)
+
+            asyncio.run(do(mp3_path, transcription_path))
+        else:
+            with open(transcription_path, 'r') as f:
+                transcription = json.load(f)
+                talk.transcription_deepgram = json.dumps(transcription)
+                talk.transcription = convert_deepgram_transcription(transcription)
+                talk.auto_add_user_data = False
+                talk.save()
