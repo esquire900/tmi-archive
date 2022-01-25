@@ -1,6 +1,7 @@
 import sys, os
 
-ApplicationDirectory = 'current/'
+# ApplicationDirectory = 'current/'
+ApplicationDirectory = '/var/www/vhosts/tmi-archive.com/httpdocs/current'
 ApplicationName = 'tmi_archive'
 VirtualEnvDirectory = '/var/www/vhosts/tmi-archive.com/httpdocs/current/.venv'
 VirtualEnv = os.path.join(os.getcwd(), VirtualEnvDirectory, 'bin', 'python')

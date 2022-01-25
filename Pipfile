@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django = "*"
+django = "==3.2.11"
 django-reversion = "*"
 django-reversion-compare = "*"
 sentry-sdk = "*"
