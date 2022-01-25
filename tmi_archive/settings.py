@@ -133,11 +133,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
+# STATIC_ROOT = './static/'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_custom"),
 ]
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'runtime/')
+MEDIA_URL = '/runtime/'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
