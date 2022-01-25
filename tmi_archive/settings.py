@@ -28,19 +28,13 @@ ALLOWED_HOSTS = ['127.0.0.1', '192.168.178.72', '0.0.0.0', 'tmi-archive.com', 'w
                  'https://tmi-archive.com']
 INTERNAL_IPS = ['127.0.0.1', '192.168.178.72', '0.0.0.0']
 
-CSRF_TRUSTED_ORIGINS = ['https://www.tmi-archive.com', 'http://www.tmi-archive.com',
-                 'https://tmi-archive.com', 'http://tmi-archive.com']
+# CSRF_TRUSTED_ORIGINS = ['https://www.tmi-archive.com', 'http://www.tmi-archive.com',
+#                  'https://tmi-archive.com', 'http://tmi-archive.com']
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.sites',
-    'django.contrib.staticfiles',
+
     'reversion',
     # 'reversion_compare',
     'talks',
@@ -53,7 +47,14 @@ INSTALLED_APPS = [
     'tinymce',
     'adminsortable2',
     'django_select2',
-    'fullurl'
+    'fullurl',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.sites',
+    'django.contrib.staticfiles'
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SITE_ID = 1
