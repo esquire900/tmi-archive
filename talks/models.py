@@ -1,3 +1,5 @@
+import copy
+
 import reversion
 from crum import get_current_user
 from django.contrib.auth import get_user_model
@@ -55,6 +57,30 @@ class Talk(models.Model):
         file_name = self.audio_cleaned.file.name
         file_name = file_name.split('/')[-1]
         return f'https://static.tmi-archive.com/mp3/mp3-cleaned/{file_name}'
+
+    @property
+    def transcription_text(self):
+        if self.transcription is None:
+            return '(no transcription available)'
+        sentences = self.transcription.split('\r\n')
+        sentences = [s.split(']')[1] for s in sentences]
+        paragraphs = []
+        paragraph = ''
+        for sentence in sentences:
+            if len(paragraph) > 500:
+                paragraphs.append(copy.copy(paragraph))
+                paragraph = ''
+            paragraph += str(sentence)
+
+        paragraphs.append(paragraph)
+        return "<br><br>".join(paragraphs)
+
+    @property
+    def transcription_for_audio(self):
+        transcription = self.transcription
+        for i in range(10):
+            transcription = transcription.replace(f'@speaker_{i}', '')
+        return transcription.replace(' ]', ']')
 
 
 class Playlist(models.Model):

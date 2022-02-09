@@ -50,7 +50,7 @@ class Command(BaseCommand):
         dg_client = Deepgram(TOKEN)
         base_path = '/var/www/vhosts/tmi-archive.com/mp3'
 
-        talk_id = 24
+        talk_id = 16
         talk = Talk.objects.get(id=talk_id)
 
         fname = str(talk.audio_cleaned).split("/")[-1]

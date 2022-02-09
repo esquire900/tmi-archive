@@ -47,7 +47,7 @@ class NewDetailView(DetailView):
 
 def talk_transcription(request, pk):
     talk = get_object_or_404(Talk, pk=pk)
-    response = HttpResponse(talk.transcription, content_type="text/plain", charset='utf-8')
+    response = HttpResponse(talk.transcription_for_audio, content_type="text/plain", charset='utf-8')
     response["Access-Control-Allow-Origin"] = "*"
     return response
 
