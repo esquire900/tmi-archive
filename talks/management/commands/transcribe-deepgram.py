@@ -38,6 +38,29 @@ def convert_deepgram_transcription(response):
     return "\r\n".join(result)  # same, needed for the audioplayer
 
 
+def process_talk(talk, dg_client):
+    base_path = '/var/www/vhosts/tmi-archive.com/mp3'
+    fname = str(talk.audio_cleaned).split("/")[-1]
+    mp3_path = f'{base_path}/mp3-cleaned/{fname}'
+    transcription_path = f'{base_path}/transcriptions/{fname}.json'
+    if not os.path.exists(transcription_path) and os.path.exists(mp3_path) and mp3_path[-4:] == '.mp3':
+        async def do(mp3_path_arg, transcription_path_arg):
+            with open(mp3_path_arg, 'rb') as audio:
+                source = {'buffer': audio, 'mimetype': 'audio/mp3'}
+                response = await dg_client.transcription.prerecorded(source, {'punctuate': True, 'diarize': True, })
+                with open(transcription_path_arg, 'w') as f:
+                    json.dump(response, f)
+
+        asyncio.run(do(mp3_path, transcription_path))
+    if os.path.exists(transcription_path):
+        with open(transcription_path, 'r') as f:
+            transcription = json.load(f)
+            talk.transcription_deepgram = json.dumps(transcription)
+            talk.transcription = convert_deepgram_transcription(transcription)
+            talk.auto_add_user_data = False
+            talk.save()
+
+
 class Command(BaseCommand):
     help = 'One-off script to import all scraped talks and audio-files'
 
@@ -48,28 +71,10 @@ class Command(BaseCommand):
 
         TOKEN = os.getenv("DEEPGRAM_API_TOKEN")
         dg_client = Deepgram(TOKEN)
-        base_path = '/var/www/vhosts/tmi-archive.com/mp3'
 
-        talk_id = 16
-        talk = Talk.objects.get(id=talk_id)
-
-        fname = str(talk.audio_cleaned).split("/")[-1]
-        mp3_path = f'{base_path}/mp3-cleaned/{fname}'
-        transcription_path = f'{base_path}/transcriptions/{fname}.json'
-        print(mp3_path, transcription_path)
-        if not os.path.exists(transcription_path):
-            async def do(mp3_path_arg, transcription_path_arg):
-                with open(mp3_path_arg, 'rb') as audio:
-                    source = {'buffer': audio, 'mimetype': 'audio/mp3'}
-                    response = await dg_client.transcription.prerecorded(source, {'punctuate': True, 'diarize': True, })
-                    with open(transcription_path_arg, 'w') as f:
-                        json.dump(response, f)
-
-            asyncio.run(do(mp3_path, transcription_path))
-        else:
-            with open(transcription_path, 'r') as f:
-                transcription = json.load(f)
-                talk.transcription_deepgram = json.dumps(transcription)
-                talk.transcription = convert_deepgram_transcription(transcription)
-                talk.auto_add_user_data = False
-                talk.save()
+        # talk = Talk.objects.get(id=talk_id)
+        for talk in Talk.objects.order_by('id').all():
+            if talk.id in [9, 19]:
+                continue
+            print(talk.id)
+            process_talk(talk, dg_client)

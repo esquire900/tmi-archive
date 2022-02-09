@@ -6,8 +6,8 @@ from talks import views
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='talk_index'),
-    path('talk/<int:pk>', views.DetailView.as_view(), name='talk_view'),
-    path('talk/<int:pk>/new-viewer', views.NewDetailView.as_view(), name='talk_view_new'),
+    path('talk/<int:pk>/old-viewer', views.DetailView.as_view(), name='talk_view_old'),
+    path('talk/<int:pk>', views.NewDetailView.as_view(), name='talk_view'),
     path('talk/<int:pk>/transcription', views.talk_transcription, name='talk_transcription'),
 
     path('talk/<int:pk>/edit', login_required(views.UpdateView.as_view()), name='talk_edit'),
