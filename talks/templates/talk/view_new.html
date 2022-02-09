@@ -19,7 +19,7 @@
                     <div class="card-text">
                         <h3 class="display pt-2 pb-2">{{ talk.title }}</h3>
 
-                        {% if audio.url %}
+                        {% if talk.mp3_url_clean %}
                             <script lang="javascript">
                                 {#chaptermarks#}
                                 window.playerConfiguration = {
@@ -40,7 +40,7 @@
                                     },
                                     "episode": {
                                         "media": {
-                                            "mp3": "{{ audio.url }}"
+                                            "mp3": "{{ talk.mp3_url_clean }}"
                                         },
                                         "url": "{{ request.build_absolute_uri }}",
                                         "title": "{{ talk.title }}",
@@ -51,21 +51,6 @@
                             <script class="podigee-podcast-player"
                                     src="https://cdn.podigee.com/podcast-player/javascripts/podigee-podcast-player.js"
                                     data-configuration="playerConfiguration"></script>
-                            <small>
-                                {% if talk.audio_cleaned %}
-                                    {% if audio.url == talk.audio_cleaned.url %}
-                                        This is the automatically cleaned audio file.
-                                        <a href="?original_audio=1">Click here to listen to the original audio.</a>
-                                    {% endif %}
-                                {% endif %}
-                                {% if talk.audio_original %}
-                                    {% if audio.url == talk.audio_original.url %}
-                                        This is the original audio.
-                                        <a href="?original_audio=0">Click here to listen to the cleaned audio.</a>
-
-                                    {% endif %}
-                                {% endif %}
-                            </small>
 
                         {% else %}
                             There is no audio for this talk.

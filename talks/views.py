@@ -39,22 +39,6 @@ class DetailView(generic.DetailView):
     model = Talk
     template_name = 'talk/view.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        use_original_data = self.request.GET.get('original_audio') == 1
-
-        audio = False
-        if not use_original_data and self.get_object().audio_cleaned is not None:
-            audio = self.get_object().audio_cleaned
-        elif self.get_object().audio_original is not None:
-            audio = self.get_object().audio_original
-        try:
-            not_used = audio.url
-        except ValueError:
-            audio = False
-        context['audio'] = audio
-        return context
-
 
 class NewDetailView(DetailView):
     model = Talk

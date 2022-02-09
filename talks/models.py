@@ -48,6 +48,14 @@ class Talk(models.Model):
     def get_absolute_url(self):
         return reverse('talk_view', kwargs={'pk': self.id})
 
+    @property
+    def mp3_url_clean(self):
+        if self.audio_cleaned is None:
+            return None
+        file_name = self.audio_cleaned.file.name
+        file_name = file_name.split('/')[-1]
+        return f'https://static.tmi-archive.com/mp3/mp3-cleaned/{file_name}'
+
 
 class Playlist(models.Model):
     title = models.CharField(max_length=300)
