@@ -9,7 +9,7 @@ services:
       - 127.0.0.1:8000:8000
     environment:
       SECRET_KEY: not-so-secret
-      DEBUG: 'true'
+      DEBUG: 'on'
       DB_HOST: db
       DB_PORT: 5432
       DB_USER: tmi-archive
