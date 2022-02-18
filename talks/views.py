@@ -21,11 +21,10 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         """Return the last five published questions."""
         query = self.request.GET.get('q')
-        if query is None:
-            return Talk.objects.all()
-        return Talk.objects.filter(
-            Q(title__icontains=query)
-        ).all()
+        queryset = Talk.objects.order_by('pk')
+        if query:
+            queryset = queryset.filter(title__icontains=query)
+        return queryset
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
