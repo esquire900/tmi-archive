@@ -20,18 +20,18 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """Return the last five published questions."""
-        query = self.request.GET.get('q')
-        if query is None:
-            return Talk.objects.all()
-        return Talk.objects.filter(
-            Q(title__icontains=query)
-        ).all()
+        self.query = self.request.GET.get('q')
+        queryset = Talk.objects.order_by('pk')
+        if self.query:
+            queryset = queryset.filter(title__icontains=self.query)
+        return queryset
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(IndexView, self).get_context_data(**kwargs)
         # Add in the publisher
         context['search_query'] = self.request.GET.get('q') or ''
+        context['pagination_extra'] = f'q={self.query}' if self.query else None
         return context
 
 
