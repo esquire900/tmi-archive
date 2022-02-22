@@ -108,3 +108,17 @@ def contact(request):
 def profile_view(request):
     return render(request, 'account/profile.html', {
     })
+
+
+from rest_framework import viewsets
+from rest_framework import permissions
+from talks.serializers import TalkSerializer
+
+
+class TalkViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Talk.objects.all().order_by('-id')
+    serializer_class = TalkSerializer
+    permission_classes = [permissions.IsAuthenticated]

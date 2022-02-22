@@ -33,6 +33,7 @@ django-select2 = "*"
 "backports.weakref" = "*"
 django-fullurl = "*"
 deepgram-sdk = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.8"

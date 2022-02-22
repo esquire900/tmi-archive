@@ -3,6 +3,11 @@ from django.urls import path
 from django.views.generic.base import RedirectView
 from django.contrib.auth.decorators import login_required
 from talks import views
+from rest_framework import routers
+from django.urls import include, path
+
+router = routers.DefaultRouter()
+router.register(r'talks', views.TalkViewSet)
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='talk_index'),
@@ -19,6 +24,7 @@ urlpatterns = [
     path('accounts/profile/', views.profile_view, name='profile_view'),
     path('contact', views.contact, name='contact'),
     path('download', views.DownloadView.as_view(), name='download'),
-    path('download-transcription/<int:pk>', views.download_transcription, name='download_transcription')
-
+    path('download-transcription/<int:pk>', views.download_transcription, name='download_transcription'),
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
