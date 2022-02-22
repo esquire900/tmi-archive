@@ -174,3 +174,10 @@ if os.getenv('SENTRY_DSN'):
     )
 
 SECURE_SSL_REDIRECT = False
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_cache',
+    }
+}
