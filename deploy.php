@@ -14,13 +14,13 @@ set('writable_use_sudo', false);
 set('writable_chmod_mode', '777');
 set('env', [
     # deploys venv in local dir, so every release gets its own environment
-    'PIPENV_VENV_IN_PROJECT' => 'true',
+   'PIPENV_VENV_IN_PROJECT' => 'true',
 ]);
 
 host('46.4.74.147')
-    ->stage('production')
-    ->set('deploy_path', '~/httpdocs')
-    ->user('tmi-archive');
+   ->stage('production')
+   ->set('deploy_path', '~/httpdocs')
+   ->user('tmi-archive');
 
 // server has pull rights
 
@@ -43,6 +43,8 @@ task('deploy:run_migrations', function () {
     $python_loc = '{{release_path}}/.venv/bin/python3.8';
     run($python_loc . " {{release_path}}/manage.py migrate");
     run("cd {{release_path}} && " . $python_loc . " manage.py collectstatic --noinput");
+    run("cp /var/www/vhosts/tmi-archive.com/httpdocs/current/static/* /var/www/vhosts/tmi-archive.com/static.tmi-archive.com/static -r");
+
 })->desc('migrated');
 
 task('deploy:restart', function () {
@@ -50,19 +52,19 @@ task('deploy:restart', function () {
 })->desc('Restarted');
 
 task('deploy', [
-    'deploy:info',
-    'deploy:prepare',
-    'deploy:lock',
-    'deploy:release',
-    'deploy:update_code',
-    'deploy:install_pipenv',
-    'deploy:custom_stuff',
-    'deploy:run_migrations',
-    'deploy:shared',
-    'deploy:writable',
-    'deploy:symlink',
-    'deploy:restart',
-    'deploy:unlock',
-    'cleanup',
+   'deploy:info',
+   'deploy:prepare',
+   'deploy:lock',
+   'deploy:release',
+   'deploy:update_code',
+   'deploy:install_pipenv',
+   'deploy:custom_stuff',
+   'deploy:run_migrations',
+   'deploy:shared',
+   'deploy:writable',
+   'deploy:symlink',
+   'deploy:restart',
+   'deploy:unlock',
+   'cleanup',
 ])->desc('Deploy your project');
 after('deploy', 'success');

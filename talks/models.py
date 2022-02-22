@@ -80,8 +80,21 @@ class Talk(models.Model):
         transcription = self.transcription
         for i in range(10):
             transcription = transcription.replace(f'@speaker_{i}', '')
-        return transcription.replace(' ]', ']')
-
+        transcription = transcription.replace(' ]', ' -]')
+        # the player needs very specific lines:
+        # [00:00:03.6-] So anybody has on?
+        sentences = transcription.split('\r\n')
+        paragraphs = []
+        paragraph = ''
+        for sentence in sentences:
+            if len(paragraph) > 500:
+                paragraphs.append(paragraph)
+                paragraph = ''
+            if len(paragraph) > 0:
+                sentence = sentence.split(']')[1]
+            paragraph += str(sentence)
+        paragraphs.append(paragraph)
+        return "\r\n".join(paragraphs)
 
 class Playlist(models.Model):
     title = models.CharField(max_length=300)
