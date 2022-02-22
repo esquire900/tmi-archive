@@ -115,10 +115,10 @@ from rest_framework import permissions
 from talks.serializers import TalkSerializer
 
 
-class TalkViewSet(viewsets.ModelViewSet):
+class TalkViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
     queryset = Talk.objects.all().order_by('-id')
     serializer_class = TalkSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
