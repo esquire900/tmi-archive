@@ -1,13 +1,13 @@
 {% extends 'main_ui.html' %}
 {% load static %}
+{% load bootstrap4 %}
+
 {% block content %}
     <h2 class="display">
         Download
     </h2>
     <br>
-    This page offers download links for the audio and transcriptions of all talks on tmi-archive. For bulk downloading
-    all talks, all talks in json format can be found <a href="{% url 'download_data' %}">here</a>.
-    <br>
+    This page offers download links for the audio and transcriptions of all talks on tmi-archive.
 
     <table class="table table-sm">
         <thead>
@@ -17,9 +17,9 @@
             <th scope="col">Transcription Download</th>
         </tr>
         </thead>
-        {% for talk in talks %}
-            <tr>
 
+        {% for talk in object_list %}
+            <tr>
                 <td>{{ talk.title }}</td>
                 {% if talk.mp3_url_clean %}
                     <td><a href="{{ talk.mp3_url_clean }}" target="_blank">download audio</a></td>
@@ -27,12 +27,13 @@
                     <td>No audio</td>
                 {% endif %}
                 {% if talk.transcription_text %}
-                    <td><a href="{% url 'download_transcription' pk=talk.id %}">download audio</a></td>
+                    <td><a href="{% url 'download_transcription' pk=talk.id %}">download transcription</a></td>
                 {% else %}
                     <td>-</td>
                 {% endif %}
             </tr>
         {% endfor %}
     </table>
+    {% bootstrap_pagination page_obj extra=pagination_extra %}
 
 {% endblock %}

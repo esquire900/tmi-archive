@@ -18,9 +18,7 @@ urlpatterns = [
 
     path('accounts/profile/', views.profile_view, name='profile_view'),
     path('contact', views.contact, name='contact'),
-    path('download', views.download, name='download'),
-    path('download_data', views.download_data, name='download_data'),
-
+    path('download', views.DownloadView.as_view(), name='download'),
     path('download-transcription/<int:pk>', views.download_transcription, name='download_transcription')
 
 ]

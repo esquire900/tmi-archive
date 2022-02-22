@@ -81,24 +81,18 @@ def playlist_view(request, pk):
     return render(request, 'playlist/view.html', {'playlist': playlist})
 
 
-def download(request):
-    talks = Talk.objects.all()
-    return render(request, 'download.html', {'talks': talks})
+class DownloadView(generic.ListView):
+    template_name = 'talk/download.html'
+    fields = ['title']
+    paginate_by = 100
 
-
-def download_data(request):
-    from django.http import JsonResponse
-
-    data = {}
-    talks = Talk.objects.all()
-
-    for talk in talks:
-        data[talk.id] = {
-            'id': talk.id,
-            'title': talk.title,
-            'audio_url': talk.mp3_url_clean,
-        }
-    return JsonResponse(data)
+    def get_queryset(self):
+        """Return the last five published questions."""
+        self.query = self.request.GET.get('q')
+        queryset = Talk.objects.order_by('pk')
+        if self.query:
+            queryset = queryset.filter(title__icontains=self.query)
+        return queryset
 
 
 def download_transcription(request, pk):
