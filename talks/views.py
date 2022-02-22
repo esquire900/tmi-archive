@@ -81,6 +81,31 @@ def playlist_view(request, pk):
     return render(request, 'playlist/view.html', {'playlist': playlist})
 
 
+def download(request):
+    talks = Talk.objects.all()
+    return render(request, 'download.html', {'talks': talks})
+
+
+def download_data(request):
+    from django.http import JsonResponse
+
+    data = {}
+    talks = Talk.objects.all()
+
+    for talk in talks:
+        data[talk.id] = {
+            'id': talk.id,
+            'title': talk.title,
+            'audio_url': talk.mp3_url_clean,
+        }
+    return JsonResponse(data)
+
+
+def download_transcription(request, pk):
+    talk = get_object_or_404(Talk, pk=pk)
+    return HttpResponse(talk.transcription_text, content_type='text/plain')
+
+
 def contact(request):
     return render(request, 'contact.html')
 
