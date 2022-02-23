@@ -3,7 +3,6 @@
 import django.core.validators
 from django.db import migrations, models
 import dynamic_filenames
-import taggit.managers
 import tinymce.models
 
 
@@ -14,11 +13,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='talk',
-            name='tags',
-            field=taggit.managers.TaggableManager(help_text='A comma-separated list of tags.', through='taggit.TaggedItem', to='taggit.Tag', verbose_name='Tags'),
-        ),
+
         migrations.AlterField(
             model_name='talk',
             name='audio_cleaned',
