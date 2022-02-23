@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'crispy_forms',
-    'taggit',
     'tinymce',
     'adminsortable2',
     'django_select2',
