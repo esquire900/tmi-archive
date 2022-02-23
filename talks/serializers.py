@@ -7,3 +7,9 @@ class TalkSerializer(serializers.HyperlinkedModelSerializer):
         model = Talk
         fields = ['id', 'title', 'mp3_url_clean', 'description',
                   'transcription']
+
+
+class PlaylistSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Playlist
+        fields = ['id', 'title', 'description', 'first_recording_date']

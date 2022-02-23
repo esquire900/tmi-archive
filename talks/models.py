@@ -23,6 +23,9 @@ class Talk(models.Model):
                                      upload_to=FilePattern(
                                          filename_pattern='audio/cleaned/tmi-archive-{uuid:.12base32}.mp3'),
                                      validators=[FileExtensionValidator(['mp3'])])
+
+    audio_filename = models.CharField(max_length=300, blank=True, null=True)
+
     created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by')
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='updated_by')
 
@@ -55,7 +58,7 @@ class Talk(models.Model):
         if self.audio_cleaned is None:
             return None
         try:
-            file_name = self.audio_cleaned.file.name
+            file_name = str(self.audio_cleaned)
         except ValueError:
             return None
         file_name = file_name.split('/')[-1]
@@ -98,6 +101,7 @@ class Talk(models.Model):
             paragraph += str(sentence)
         paragraphs.append(paragraph)
         return "\r\n".join(paragraphs)
+
 
 class Playlist(models.Model):
     title = models.CharField(max_length=300)

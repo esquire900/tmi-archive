@@ -133,8 +133,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
-# STATIC_URL = 'https://static.tmi-archive.com/'
+# STATIC_URL = '/static/'
+STATIC_URL = 'https://static.tmi-archive.com/'
 STATIC_ROOT = './static/'
 
 STATICFILES_DIRS = [
@@ -142,10 +142,9 @@ STATICFILES_DIRS = [
 
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'runtime/')
-MEDIA_URL = '/runtime/'
+MEDIA_URL = 'https://mp3.tmi-archive.com/'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
 AWS_ACCESS_KEY_ID = os.getenv('B2_USER')
 AWS_SECRET_ACCESS_KEY = os.getenv('B2_KEY')
 AWS_STORAGE_BUCKET_NAME = os.getenv('B2_BUCKET')
@@ -180,4 +179,9 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': '/var/tmp/django_cache',
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 50
 }

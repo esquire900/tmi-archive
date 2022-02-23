@@ -8,6 +8,7 @@ from django.urls import include, path
 
 router = routers.DefaultRouter()
 router.register(r'talks', views.TalkViewSet)
+router.register(r'playlists', views.PlaylistViewSet)
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='talk_index'),
@@ -25,6 +26,6 @@ urlpatterns = [
     path('contact', views.contact, name='contact'),
     path('download', views.DownloadView.as_view(), name='download'),
     path('download-transcription/<int:pk>', views.download_transcription, name='download_transcription'),
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api/v1/', include(router.urls)),
+    path('api/v1/api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

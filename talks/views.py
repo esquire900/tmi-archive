@@ -16,7 +16,7 @@ from django.views.decorators.cache import cache_page
 class IndexView(generic.ListView):
     template_name = 'talk/list.html'
     fields = ['title']
-    paginate_by = 10
+    paginate_by = 20
 
     # context_object_name = 'latest_question_list'
 
@@ -118,7 +118,7 @@ def profile_view(request):
 
 from rest_framework import viewsets
 from rest_framework import permissions
-from talks.serializers import TalkSerializer
+from talks.serializers import TalkSerializer, PlaylistSerializer
 
 
 class TalkViewSet(viewsets.ReadOnlyModelViewSet):
@@ -127,4 +127,13 @@ class TalkViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Talk.objects.all().order_by('-id')
     serializer_class = TalkSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class PlaylistViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Playlist.objects.all().order_by('-id')
+    serializer_class = PlaylistSerializer
     permission_classes = [permissions.AllowAny]
