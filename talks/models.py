@@ -127,14 +127,17 @@ class Playlist(models.Model):
     def get_absolute_url(self):
         return reverse('playlist_view', kwargs={'pk': self.id})
 
+    def clean(self):
+        try:
+            self.created_by
+        except Exception as e:
+            self.created_by = get_current_user()
+        self.updated_by = get_current_user()
 
 class PlaylistTalk(models.Model):
     playlist = models.ForeignKey('Playlist', on_delete=models.CASCADE)
     talk = models.ForeignKey('Talk', on_delete=models.CASCADE)
     order = models.PositiveSmallIntegerField(default=0)
-
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by_playlist')
-    updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='updated_by_playlist')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
