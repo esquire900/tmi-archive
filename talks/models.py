@@ -7,7 +7,6 @@ from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.urls import reverse
 from dynamic_filenames import FilePattern
-from taggit.managers import TaggableManager
 from tinymce.models import HTMLField
 
 
@@ -33,7 +32,6 @@ class Talk(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     auto_add_user_data = True
-    tags = TaggableManager()
 
     transcription = models.TextField(null=True)
     transcription_deepgram = models.TextField(null=True)

@@ -1,3 +1,4 @@
+import annotate as annotate
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
@@ -5,12 +6,15 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views import generic
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 from .forms import TalkForm, PlaylistForm
 from .models import Talk
 from .models import Playlist
 
 from django.views.decorators.cache import cache_page
+
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector, SearchHeadline
 
 
 class IndexView(generic.ListView):
@@ -23,9 +27,15 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         """Return the last five published questions."""
         self.query = self.request.GET.get('q')
-        queryset = Talk.objects.order_by('pk')
+        queryset = Talk.objects
+
         if self.query:
-            queryset = queryset.filter(title__icontains=self.query)
+            vector = SearchVector('title', config='english', weight='A') \
+                     + SearchVector('description', config='english', weight='B') \
+                     + SearchVector('transcription', config='english', weight='C')
+            query = SearchQuery(self.query)
+
+            queryset = Talk.objects.annotate(rank=SearchRank(vector, query, cover_density=True)).order_by('-rank')
         return queryset
 
     def get_context_data(self, **kwargs):

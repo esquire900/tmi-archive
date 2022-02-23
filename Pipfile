@@ -33,6 +33,7 @@ django-select2 = "*"
 django-fullurl = "*"
 deepgram-sdk = "*"
 djangorestframework = "*"
+annotate = "*"
 
 [requires]
 python_version = "3.8"

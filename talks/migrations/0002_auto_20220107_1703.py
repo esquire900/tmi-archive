@@ -10,7 +10,6 @@ import tinymce.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('taggit', '0003_taggeditem_add_unique_index'),
         ('talks', '0001_initial'),
     ]
 

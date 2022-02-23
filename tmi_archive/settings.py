@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    'rest_framework'
+    'rest_framework',
+    'django.contrib.postgres'
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SITE_ID = 1
@@ -96,7 +97,7 @@ TEMPLATES = [
 # LOGIN_REDIRECT_URL = '/'
 WSGI_APPLICATION = 'tmi_archive.wsgi.application'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 TAGGIT_CASE_INSENSITIVE = True
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
