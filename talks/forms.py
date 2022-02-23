@@ -7,8 +7,6 @@ from .models import Talk, Playlist
 
 
 class TalkForm(forms.ModelForm):
-    description = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -17,7 +15,8 @@ class TalkForm(forms.ModelForm):
 
     class Meta:
         model = Talk
-        fields = ['title', 'description']
+        fields = ['title', 'description', 'transcription']
+
 
 
 class PlaylistForm(forms.ModelForm):

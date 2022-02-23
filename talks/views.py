@@ -27,7 +27,7 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         """Return the last five published questions."""
         self.query = self.request.GET.get('q')
-        queryset = Talk.objects
+        queryset = Talk.objects.order_by('id')
 
         if self.query:
             vector = SearchVector('title', config='english', weight='A') \

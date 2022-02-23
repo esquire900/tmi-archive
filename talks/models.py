@@ -33,7 +33,12 @@ class Talk(models.Model):
 
     auto_add_user_data = True
 
-    transcription = models.TextField(null=True)
+    transcription = models.TextField(null=True,
+                                     help_text='The transcription of the audio is formatted in a specific way:'
+                                               '"[timestamp @speaker_name] all text of paragraph (new line)". For example: <br>'
+                                               '[0:00:00.0 @student] Some question.<br>'
+                                               '[0:00:10.4 @culadasa] Answer to question.'
+                                     )
     transcription_deepgram = models.TextField(null=True)
 
     def __str__(self):
@@ -67,7 +72,7 @@ class Talk(models.Model):
         if self.transcription is None:
             return '(no transcription available)'
         sentences = self.transcription.split('\r\n')
-        sentences = [s.split(']')[1] for s in sentences]
+        sentences = [s.split(']')[1] if ']' in s else s for s in sentences]
         paragraphs = []
         paragraph = ''
         for sentence in sentences:
