@@ -23,7 +23,7 @@
                     <div class="card-text">
                         {{ playlist.description|safe }}
                         <ol>
-                            {% for talk in playlist.talks.all %}
+                            {% for talk in playlist.sorted_talks %}
                                 <li>
                                     <a href="{% url 'talk_view' pk=talk.id %}">{{ talk }}</a>
                                 </li>
