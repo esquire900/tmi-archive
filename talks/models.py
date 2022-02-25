@@ -24,6 +24,7 @@ class Talk(models.Model):
                                      validators=[FileExtensionValidator(['mp3'])])
 
     audio_filename = models.CharField(max_length=300, blank=True, null=True)
+    original_file_name = models.CharField(max_length=300, blank=True, null=True)
 
     created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by')
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='updated_by')
