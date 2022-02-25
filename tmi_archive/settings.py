@@ -171,8 +171,8 @@ if os.getenv('SENTRY_DSN'):
         send_default_pii=True
     )
 
-SECURE_SSL_REDIRECT = False
-
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
