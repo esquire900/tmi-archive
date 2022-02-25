@@ -4,7 +4,7 @@ import reversion
 from crum import get_current_user
 from django.contrib.auth import get_user_model
 from django.core.validators import FileExtensionValidator
-from django.db import models
+from django.db import models, transaction
 from django.urls import reverse
 from dynamic_filenames import FilePattern
 from tinymce.models import HTMLField
@@ -107,11 +107,20 @@ class Talk(models.Model):
         return "\r\n".join(paragraphs)
 
 
+class SortableManyToManyField(models.ManyToManyField):
+    @transaction.atomic
+    def save_form_data(self, instance, data):
+        field = getattr(instance, self.attname)
+        field.clear()
+        for order, item in enumerate(data):
+            field.add(item, through_defaults={'order': order})
+
+
 class Playlist(models.Model):
     title = models.CharField(max_length=300)
     description = HTMLField(null=True)
     first_recording_date = models.DateField(null=True, blank=True)
-    talks = models.ManyToManyField(Talk, through='PlaylistTalk')
+    talks = SortableManyToManyField(Talk, through='PlaylistTalk')
 
     created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by_playlist_talk')
     updated_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='updated_by_playlist_talk')
@@ -134,6 +143,9 @@ class Playlist(models.Model):
         except Exception as e:
             self.created_by = get_current_user()
         self.updated_by = get_current_user()
+
+    def sorted_talks(self):
+        return self.talks.all().order_by('playlisttalk__order')
 
 class PlaylistTalk(models.Model):
     playlist = models.ForeignKey('Playlist', on_delete=models.CASCADE)

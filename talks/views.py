@@ -1,7 +1,7 @@
 import annotate as annotate
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views import generic
@@ -92,6 +92,15 @@ def playlist_view(request, pk):
     playlist = get_object_or_404(Playlist, pk=pk)
     return render(request, 'playlist/view.html', {'playlist': playlist})
 
+
+def playlist_search_talks(request):
+    query = request.GET.get('query')
+    return JsonResponse({
+        'results': [
+            {'id': talk.pk, 'title': talk.title}
+            for talk in Talk.objects.filter(title__icontains=query)
+        ],
+    })
 
 
 class DownloadView(generic.ListView):
