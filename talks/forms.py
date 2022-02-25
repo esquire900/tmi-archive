@@ -19,9 +19,8 @@ class TalkForm(forms.ModelForm):
 
 class SortableTalksWidget(forms.CheckboxSelectMultiple):
     def optgroups(self, *args, **kwargs):
-        # Only return the selected items
-        rv = super().optgroups(*args, **kwargs)
-        return [item for item in rv if item[1][0]['selected']]
+        self.choices = self.choices_for_options
+        return super().optgroups(*args, **kwargs)
 
 
 class SortableTalksField(forms.ModelMultipleChoiceField):
@@ -50,6 +49,17 @@ class PlaylistForm(forms.ModelForm):
 
         self.helper = FormHelper()
         self.helper.add_input(Submit('submit', 'Submit'))
+
+        talks_field = self.fields['talks']
+        if self.instance.pk:
+            model_choice_iterator = talks_field.iterator(talks_field)
+            talks_field.widget.choices_for_options = [
+                model_choice_iterator.choice(talk) for talk in
+                self.instance.talks.order_by('playlisttalk__order')
+            ]
+
+        else:
+            talks_field.widget.choices_for_options = []
 
     class Meta:
         model = Playlist
