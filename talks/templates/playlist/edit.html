@@ -2,13 +2,6 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block extra_head %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"
-            integrity="sha512-zYXldzJsDrNKV+odAwFYiDXV2Cy37cwizT+NkuiPGsa9X1dOz04eHvUWVuxaJ299GvcJT31ug2zO4itXBjFx4w=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"></script>
-{% endblock %}
-
 {% block content %}
     <nav aria-label="breadcrumb" class="pt-2">
         <ol class="breadcrumb">
@@ -24,13 +17,5 @@
 
     {% crispy form %}
 
-    <script>
-    (function() {
-      const container = document.querySelector('#div_id_talks > div');
-      const sortable = Sortable.create(container, {
-        filter: '.form-text',
-        animation: 150,
-      });
-    })();
-    </script>
+    <script src="{% static 'js/playlist_editor.js' %}"></script>
 {% endblock %}

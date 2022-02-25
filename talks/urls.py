@@ -21,6 +21,7 @@ urlpatterns = [
     path('playlist/<int:pk>', views.playlist_view, name='playlist_view'),
     path('playlist/<int:pk>/edit', login_required(views.PlaylistUpdateView.as_view()), name='playlist_edit'),
     path('playlist/create', login_required(views.PlaylistCreateView.as_view()), name='playlist_create'),
+    path('playlist/search-talks', login_required(views.playlist_search_talks), name='playlist_search_talks'),
 
     path('accounts/profile/', views.profile_view, name='profile_view'),
     path('contact', views.contact, name='contact'),

@@ -17,6 +17,13 @@ class TalkForm(forms.ModelForm):
         fields = ['title', 'description', 'transcription']
 
 
+class SortableTalksWidget(forms.CheckboxSelectMultiple):
+    def optgroups(self, *args, **kwargs):
+        # Only return the selected items
+        rv = super().optgroups(*args, **kwargs)
+        return [item for item in rv if item[1][0]['selected']]
+
+
 class SortableTalksField(forms.ModelMultipleChoiceField):
     def clean(self, value):
         # First, call the default implementation, to get a queryset of talks.
@@ -34,8 +41,8 @@ class PlaylistForm(forms.ModelForm):
     )
     talks = SortableTalksField(
         queryset=Talk.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
-        help_text='Which talks to include in the playlist. Select talks by searching in the field above. Talks are not sortable at the moment.'
+        widget=SortableTalksWidget(),
+        help_text='Which talks to include in the playlist. Select talks by searching in the field above. Drag talks to sort. Uncheck talks to remove.'
     )
 
     def __init__(self, *args, **kwargs):
