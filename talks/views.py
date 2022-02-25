@@ -93,14 +93,11 @@ def playlist_view(request, pk):
     return render(request, 'playlist/view.html', {'playlist': playlist})
 
 
-from django.utils.decorators import method_decorator
 
-
-@method_decorator(cache_page(60 * 60 * 12), name='dispatch')
 class DownloadView(generic.ListView):
     template_name = 'talk/download.html'
     fields = ['title']
-    paginate_by = 50
+    paginate_by = 500
 
     def get_queryset(self):
         """Return the last five published questions."""
