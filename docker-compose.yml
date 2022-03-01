@@ -15,6 +15,7 @@ services:
       DB_USER: tmi-archive
       DB_PASS: tmi-archive
       DB_NAME: tmi-archive
+      PRODUCTION: 'false'
 
   db:
     image: postgres:13
