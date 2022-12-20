@@ -51,6 +51,22 @@ class DetailView(generic.DetailView):
     model = Talk
     template_name = 'talk/view.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['audio_url'] = self.get_object().mp3_url_clean
+        return context
+
+
+class DetailOriginalView(generic.DetailView):
+    model = Talk
+    template_name = 'talk/view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['audio_url'] = self.get_object().mp3_url_clean_original
+        return context
+
+
 
 class NewDetailView(DetailView):
     model = Talk

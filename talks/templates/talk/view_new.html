@@ -19,7 +19,7 @@
                     <div class="card-text">
                         <h3 class="display pt-2 pb-2">{{ talk.title }}</h3>
 
-                        {% if talk.mp3_url_clean %}
+                        {% if audio_url %}
                             <script lang="javascript">
                                 {#chaptermarks#}
                                 window.playerConfiguration = {
@@ -40,7 +40,7 @@
                                     },
                                     "episode": {
                                         "media": {
-                                            "mp3": "{{ talk.mp3_url_clean }}"
+                                            "mp3": "{{ audio_url }}"
                                         },
                                         "url": "{{ request.build_absolute_uri }}",
                                         "title": "{{ talk.title }}",

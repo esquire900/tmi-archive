@@ -69,6 +69,17 @@ class Talk(models.Model):
         return f'https://mp3.tmi-archive.com/{file_name}'
 
     @property
+    def mp3_url_clean_original(self):
+        if self.audio_original is None:
+            return None
+        try:
+            file_name = str(self.audio_original)
+        except ValueError:
+            return None
+        file_name = file_name.split('/')[-1]
+        return f'https://mp3.tmi-archive.com/{file_name}'
+
+    @property
     def transcription_text(self):
         if self.transcription is None:
             return '(no transcription available)'
