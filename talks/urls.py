@@ -15,7 +15,7 @@ urlpatterns = [
     path('talk/<int:pk>/old-viewer', views.DetailView.as_view(), name='talk_view_old'),
 
     path('talk/<int:pk>', views.NewDetailView.as_view(), name='talk_view'),
-    path('talk/<int:pk>/original-audio', views.DetailView.as_view(), name='talk_view_old'),
+    path('talk/<int:pk>/original-audio', views.NewDetailOriginalView.as_view(), name='talk_view_old'),
 
     path('talk/<int:pk>/transcription', views.talk_transcription, name='talk_transcription'),
 
