@@ -23,6 +23,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG') == 'on'
+PRODUCTION = os.getenv('PRODUCTION', 'on') == 'on'
 
 ALLOWED_HOSTS = ['127.0.0.1', '192.168.178.72', '0.0.0.0', 'tmi-archive.com', 'www.tmi-archive.com',
                  'https://tmi-archive.com']
@@ -133,7 +134,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/' if DEBUG else 'https://static.tmi-archive.com/'
+STATIC_URL = 'https://static.tmi-archive.com/' if PRODUCTION else '/static/'
 STATIC_ROOT = './static/'
 
 STATICFILES_DIRS = [
@@ -171,7 +172,7 @@ if os.getenv('SENTRY_DSN'):
         send_default_pii=True
     )
 
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = PRODUCTION
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CACHES = {
     'default': {
