@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django = "==3.2.11"
+django = "==4.1.4"
 django-reversion = "*"
 django-reversion-compare = "*"
 sentry-sdk = "*"
@@ -31,7 +31,6 @@ django-select2 = "*"
 "backports.zoneinfo" = "*"
 "backports.weakref" = "*"
 django-fullurl = "*"
-deepgram-sdk = "*"
 djangorestframework = "*"
 annotate = "*"
 

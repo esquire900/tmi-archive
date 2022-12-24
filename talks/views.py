@@ -1,19 +1,16 @@
-import annotate as annotate
-from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views import generic
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 
 from .forms import TalkForm, PlaylistForm
 from .models import Talk
 from .models import Playlist
 
-from django.views.decorators.cache import cache_page
-
+from rest_framework import viewsets
+from rest_framework import permissions
+from talks.serializers import TalkSerializer, PlaylistSerializer
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector, SearchHeadline
 
 
@@ -75,7 +72,6 @@ class NewDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['audio_url'] = self.get_object().mp3_url_clean
         return context
-
 
 
 def talk_transcription(request, pk):
@@ -151,11 +147,6 @@ def contact(request):
 def profile_view(request):
     return render(request, 'account/profile.html', {
     })
-
-
-from rest_framework import viewsets
-from rest_framework import permissions
-from talks.serializers import TalkSerializer, PlaylistSerializer
 
 
 class TalkViewSet(viewsets.ReadOnlyModelViewSet):

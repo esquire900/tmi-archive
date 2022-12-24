@@ -1,5 +1,5 @@
 from django.contrib import admin
-from adminsortable2.admin import SortableInlineAdminMixin
+from adminsortable2.admin import SortableInlineAdminMixin, SortableAdminBase
 
 from .models import Talk
 from .models import Playlist
@@ -12,7 +12,7 @@ class TalkTabularInline(SortableInlineAdminMixin, admin.TabularInline):
 
 
 @admin.register(Playlist)
-class PlaylistAdmin(admin.ModelAdmin):
+class PlaylistAdmin(admin.ModelAdmin, SortableAdminBase):
     inlines = [
         TalkTabularInline,
     ]

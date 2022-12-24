@@ -15,6 +15,7 @@ from pathlib import Path
 import sentry_sdk
 from dotenv import load_dotenv, find_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
+from distutils.util import strtobool
 
 load_dotenv(find_dotenv(), interpolate=False, override=True)
 
@@ -22,8 +23,9 @@ load_dotenv(find_dotenv(), interpolate=False, override=True)
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = os.getenv('DEBUG') == 'on'
-PRODUCTION = os.getenv('PRODUCTION', 'on') == 'on'
+DEBUG = strtobool(os.getenv('DEBUG'))
+ENV_PROD = os.getenv('ENV') == 'prod'
+ENV_DEV = os.getenv('ENV') == 'dev'
 
 ALLOWED_HOSTS = ['127.0.0.1', '192.168.178.72', '0.0.0.0', 'tmi-archive.com', 'www.tmi-archive.com',
                  'https://tmi-archive.com']
@@ -100,8 +102,6 @@ WSGI_APPLICATION = 'tmi_archive.wsgi.application'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 TAGGIT_CASE_INSENSITIVE = True
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -134,7 +134,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = 'https://static.tmi-archive.com/' if PRODUCTION else '/static/'
+if ENV_DEV:
+    STATIC_URL = '/static/'
+else:
+    STATIC_URL = 'https://static.tmi-archive.com/'
 STATIC_ROOT = './static/'
 
 STATICFILES_DIRS = [
@@ -148,6 +151,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_ACCESS_KEY_ID = os.getenv('B2_USER')
 AWS_SECRET_ACCESS_KEY = os.getenv('B2_KEY')
 AWS_STORAGE_BUCKET_NAME = os.getenv('B2_BUCKET')
+
 AWS_S3_ENDPOINT_URL = 'https://tmi-archive.s3.us-west-002.backblazeb2.com'
 AWS_S3_CUSTOM_DOMAIN = 'f002.backblazeb2.com/file/tmi-archive/tmi-archive'
 
@@ -171,9 +175,10 @@ if os.getenv('SENTRY_DSN'):
         traces_sample_rate=1.0,
         send_default_pii=True
     )
+if ENV_PROD:
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-SECURE_SSL_REDIRECT = PRODUCTION
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
