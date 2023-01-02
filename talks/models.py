@@ -18,11 +18,11 @@ class Talk(models.Model):
     description = HTMLField(null=True)
     audio_original = models.FileField(null=True, blank=True,
                                       upload_to=FilePattern(
-                                          filename_pattern='audio/{instance.id}/original.mp3'),
+                                          filename_pattern='{instance.id}/original.mp3'),
                                       validators=[FileExtensionValidator(['mp3'])])
     audio_cleaned = models.FileField(null=True, blank=True,
                                      upload_to=FilePattern(
-                                         filename_pattern='audio/{instance.id}/cleaned.mp3'),
+                                         filename_pattern='{instance.id}/cleaned.mp3'),
                                      validators=[FileExtensionValidator(['mp3'])])
 
     original_file_name = models.CharField(max_length=300, blank=True, null=True)
@@ -70,6 +70,7 @@ class Talk(models.Model):
         if not self.has_audio:
             return None
         file_name = str(self.audio_original).split('/')[-1]
+
         return f'https://mp3.tmi-archive.com/{file_name}'
 
     @property

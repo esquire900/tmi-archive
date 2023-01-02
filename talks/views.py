@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 
@@ -48,7 +49,7 @@ class DetailOriginalView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['audio_url'] = self.get_object().audio_url_original
+        context['audio_url'] = reverse('talk_download_original', kwargs={'pk': self.get_object().id})
         TalkMetric.track(context['object'], TalkMetric.MetricType.VIEW)
         return context
 
@@ -59,7 +60,7 @@ class DetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['audio_url'] = self.get_object().audio_url
+        context['audio_url'] = reverse('talk_download', kwargs={'pk': self.get_object().id})
         TalkMetric.track(context['object'], TalkMetric.MetricType.VIEW)
         return context
 
