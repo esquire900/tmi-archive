@@ -192,12 +192,11 @@ class TalkMetric(models.Model):
                                    null=True)
 
     @staticmethod
-    def track(talk: Talk, metric_type: MetricType):
+    def track(talk: Talk, metric_type: MetricType, user=None):
         metric = TalkMetric(
             talk=talk,
             metric_type=metric_type,
-            created_at=datetime.datetime.utcnow()
+            created_at=datetime.datetime.utcnow(),
+            created_by=user,
         )
-        if get_current_user() is not None:
-            metric.created_by = get_current_user()
         metric.save()
