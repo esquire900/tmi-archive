@@ -17,8 +17,8 @@
                 </div>
             </form>
             Or <a href="{% url 'talk_index' %}">
-                browse all talks
-            </a>
+            browse all talks
+        </a>
         </div>
     </div>
     <hr>
@@ -30,14 +30,13 @@
                         Playlist: {{ playlist.title }}
                     </div>
                     <div class="card-body">
-                        <div class="nav flex-column">
-                            {% for talk in playlist.talks.all %}
-                                <a href="{% url 'talk_view' pk=talk.id %}" class="nav-link">
-                                    {{ talk.title }}
-
-                                </a>
-                            {% endfor %}
-                        </div>
+                        {% for talk in playlist.talks.all %}
+                            #{{ forloop.counter }}
+                            <a href="{% url 'talk_view' pk=talk.id %}" class="border-bottom">
+                                {{ talk.title }}
+                            </a>
+                            <br>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

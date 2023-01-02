@@ -147,7 +147,7 @@ STATICFILES_DIRS = [
 
 if ENV_DEV:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'runtime/')
-    # MEDIA_URL = 'https://mp3.tmi-archive.com/'
+    MEDIA_URL = 'runtime/'
 else:
     MEDIA_ROOT = os.getenv('MP3_DIRECTORY')
     MEDIA_URL = 'https://mp3.tmi-archive.com/'

@@ -5,8 +5,11 @@
     <nav aria-label="breadcrumb" class="pt-2">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{% url 'talk_index' %}">TMI-archive</a>
+                <a href="{% url 'site_index' %}">Home</a>
             </li>
+            <li class="breadcrumb-item">
+                            <a href="{% url 'talk_index' %}">Talks</a>
+                        </li>
             <li class="breadcrumb-item active">
                 {{ talk.title }}
             </li>
