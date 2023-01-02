@@ -9,7 +9,9 @@
                 <h4>Results for query "{{ search_query }}"</h4>
             {% endif %}
             <form action="{% url 'talk_index' %}" method="get" class="pb-4">
-                <input name="q" type="text" placeholder="Search..." value="{{ search_query }}" class="form-control">
+                <label>
+                    <input name="q" type="text" placeholder="Search..." value="{{ search_query }}" class="form-control">
+                </label>
             </form>
 
             <div class="list-group">
@@ -28,7 +30,7 @@
 
         </div>
         <div class="col-md-4">
-            <div class="card border-dark">
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">The Mind Illuminated archive</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Meditation talks from Culadasa</h6>

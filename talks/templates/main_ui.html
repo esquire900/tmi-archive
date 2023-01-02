@@ -2,7 +2,7 @@
 {% load bootstrap4 %}
 {% load account %}
 <!DOCTYPE html  >
-<html>
+<html lang="en">
 <head>
     <title>
         TMI Archive | {% block title %}{% endblock %}
@@ -36,18 +36,6 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WK83J35H9"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-
-        gtag('config', 'G-4WK83J35H9');
-    </script>
 </head>
 <body class="d-flex flex-column h-100">
 
@@ -62,7 +50,7 @@
                 <a class="nav-link" href="{% url 'playlist_index' %}">Playlists</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'download' %}">Downloads</a>
+                <a class="nav-link" href="{% url 'download-bulk' %}">Downloads</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/v1">API</a>
@@ -92,14 +80,20 @@
         </div>
     </div>
 </nav>
+
+{% if display_header %}
 <div class="jumbotron jumbotron-fluid"
      style="background-image: url('https://static.tmi-archive.com/img/meditator-2.jpg');background-size: cover;">
     <div class="container">
         <h1 class="display-4" style="color: black">The Mind Illuminated archive</h1>
     </div>
 </div>
-
+{% endif %}
 <div class="container">
+
+<div class="alert alert-info">
+    2023-01-02: I am working on improving tmi-archive, it might not work as expected for a day or 2.
+</div>
 
     {% block content %}
     {% endblock %}

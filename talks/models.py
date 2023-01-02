@@ -8,6 +8,7 @@ from django.db import models, transaction
 from django.urls import reverse
 from dynamic_filenames import FilePattern
 from tinymce.models import HTMLField
+from django_enum import EnumField
 
 
 @reversion.register()
@@ -40,7 +41,6 @@ class Talk(models.Model):
                                                '[0:00:00.0 @student] Some question.<br>'
                                                '[0:00:10.4 @culadasa] Answer to question.'
                                      )
-    transcription_deepgram = models.TextField(null=True)
 
     def __str__(self):
         return self.title
@@ -58,26 +58,26 @@ class Talk(models.Model):
         return reverse('talk_view', kwargs={'pk': self.id})
 
     @property
-    def mp3_url_clean(self):
-        if self.audio_cleaned is None:
+    def audio_url(self):
+        if not self.has_audio:
             return None
-        try:
-            file_name = str(self.audio_cleaned)
-        except ValueError:
-            return None
-        file_name = file_name.split('/')[-1]
+        file_name = str(self.audio_cleaned).split('/')[-1]
         return f'https://mp3.tmi-archive.com/{file_name}'
 
     @property
-    def mp3_url_clean_original(self):
-        if self.audio_original is None:
+    def audio_url_original(self):
+        if not self.has_audio:
             return None
-        try:
-            file_name = str(self.audio_original)
-        except ValueError:
-            return None
-        file_name = file_name.split('/')[-1]
+        file_name = str(self.audio_original).split('/')[-1]
         return f'https://mp3.tmi-archive.com/{file_name}'
+
+    @property
+    def has_audio(self) -> bool:
+        if self.audio_cleaned is None:
+            return True
+        if not self.audio_cleaned.readable:
+            return True
+        return True
 
     @property
     def transcription_text(self):
@@ -97,7 +97,7 @@ class Talk(models.Model):
         return "<br><br>".join(paragraphs)
 
     @property
-    def transcription_for_audio(self):
+    def transcription_player_formatted(self):
         transcription = self.transcription
         for i in range(10):
             transcription = transcription.replace(f'@speaker_{i}', '')
@@ -158,6 +158,7 @@ class Playlist(models.Model):
     def sorted_talks(self):
         return self.talks.all().order_by('playlisttalk__order')
 
+
 class PlaylistTalk(models.Model):
     playlist = models.ForeignKey('Playlist', on_delete=models.CASCADE)
     talk = models.ForeignKey('Talk', on_delete=models.CASCADE)
@@ -171,3 +172,15 @@ class PlaylistTalk(models.Model):
 
     def __str__(self):
         return f'{self.playlist}: {self.talk}'
+
+
+class TalkMetric(models.Model):
+    class MetricType(models.IntegerChoices):
+        VIEW = 1, 'view'
+        DOWNLOAD = 2, 'download'
+
+    talk = models.ForeignKey('Talk', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    metric_type = EnumField(MetricType)
+    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by_talk_metric',
+                                   null=True)

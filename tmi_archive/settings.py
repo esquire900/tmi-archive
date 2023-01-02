@@ -147,14 +147,6 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'runtime/')
 MEDIA_URL = 'https://mp3.tmi-archive.com/'
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = os.getenv('B2_USER')
-AWS_SECRET_ACCESS_KEY = os.getenv('B2_KEY')
-AWS_STORAGE_BUCKET_NAME = os.getenv('B2_BUCKET')
-
-AWS_S3_ENDPOINT_URL = 'https://tmi-archive.s3.us-west-002.backblazeb2.com'
-AWS_S3_CUSTOM_DOMAIN = 'f002.backblazeb2.com/file/tmi-archive/tmi-archive'
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATABASES = {
     'default': {

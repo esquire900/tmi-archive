@@ -33,6 +33,7 @@ django-select2 = "*"
 django-fullurl = "*"
 djangorestframework = "*"
 annotate = "*"
+django-enum = "*"
 
 [requires]
 python_version = "3.8"

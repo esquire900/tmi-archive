@@ -8,10 +8,7 @@ from .forms import TalkForm, PlaylistForm
 from .models import Talk
 from .models import Playlist
 
-from rest_framework import viewsets
-from rest_framework import permissions
-from talks.serializers import TalkSerializer, PlaylistSerializer
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector, SearchHeadline
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 
 
 class IndexView(generic.ListView):
@@ -41,6 +38,17 @@ class IndexView(generic.ListView):
         # Add in the publisher
         context['search_query'] = self.request.GET.get('q') or ''
         context['pagination_extra'] = f'q={self.query}' if self.query else None
+        context['display_header'] = True
+        return context
+
+
+class DetailOriginalView(generic.DetailView):
+    model = Talk
+    template_name = 'talk/view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['audio_url'] = self.get_object().audio_url_original
         return context
 
 
@@ -50,35 +58,8 @@ class DetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['audio_url'] = self.get_object().mp3_url_clean
+        context['audio_url'] = self.get_object().audio_url
         return context
-
-
-class NewDetailOriginalView(generic.DetailView):
-    model = Talk
-    template_name = 'talk/view_new.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['audio_url'] = self.get_object().mp3_url_clean_original
-        return context
-
-
-class NewDetailView(DetailView):
-    model = Talk
-    template_name = 'talk/view_new.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['audio_url'] = self.get_object().mp3_url_clean
-        return context
-
-
-def talk_transcription(request, pk):
-    talk = get_object_or_404(Talk, pk=pk)
-    response = HttpResponse(talk.transcription_for_audio, content_type="text/plain", charset='utf-8')
-    response["Access-Control-Allow-Origin"] = "*"
-    return response
 
 
 class UpdateView(generic.UpdateView):
@@ -97,6 +78,20 @@ class PlaylistCreateView(generic.CreateView):
     model = Playlist
     template_name = 'playlist/create.html'
     form_class = PlaylistForm
+
+
+class BulkDownloadView(generic.ListView):
+    template_name = 'talk/download.html'
+    fields = ['title']
+    paginate_by = 500
+
+    def get_queryset(self):
+        """Return the last five published questions."""
+        self.query = self.request.GET.get('q')
+        queryset = Talk.objects.order_by('pk')
+        if self.query:
+            queryset = queryset.filter(title__icontains=self.query)
+        return queryset
 
 
 def playlist_index(request):
@@ -120,20 +115,6 @@ def playlist_search_talks(request):
     })
 
 
-class DownloadView(generic.ListView):
-    template_name = 'talk/download.html'
-    fields = ['title']
-    paginate_by = 500
-
-    def get_queryset(self):
-        """Return the last five published questions."""
-        self.query = self.request.GET.get('q')
-        queryset = Talk.objects.order_by('pk')
-        if self.query:
-            queryset = queryset.filter(title__icontains=self.query)
-        return queryset
-
-
 def download_transcription(request, pk):
     talk = get_object_or_404(Talk, pk=pk)
     return HttpResponse(talk.transcription_text, content_type='text/plain')
@@ -147,21 +128,3 @@ def contact(request):
 def profile_view(request):
     return render(request, 'account/profile.html', {
     })
-
-
-class TalkViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Talk.objects.all().order_by('-id')
-    serializer_class = TalkSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class PlaylistViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Playlist.objects.all().order_by('-id')
-    serializer_class = PlaylistSerializer
-    permission_classes = [permissions.AllowAny]
