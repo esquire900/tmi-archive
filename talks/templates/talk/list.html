@@ -2,24 +2,48 @@
 {% load static %}
 {% load bootstrap4 %}
 {% block content %}
-
+    <style>
+        mark {
+            font-weight: bold;
+        }
+    </style>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6 offset-md-3">
+            <form action="{% url 'talk_index' %}" method="get">
+                <div class="form-row align-items-center">
+                    <div class="col-auto w-75">
+                        <label class="sr-only" for="query">Search query</label>
+                        <input type="text" id="query" name="q" placeholder="Search TMI talks"
+                               class="form-control mb-2 w-100 form-control-lg"
+
+                                {% if search_query %}
+                               value="{{ search_query }}"
+                                {% endif %}
+                        >
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary btn-lg mb-2"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
             {% if search_query %}
                 <h4>Results for query "{{ search_query }}"</h4>
             {% endif %}
-            <form action="{% url 'talk_index' %}" method="get" class="pb-4">
-                <label>
-                    <input name="q" type="text" placeholder="Search..." value="{{ search_query }}" class="form-control">
-                </label>
-            </form>
 
             <div class="list-group">
                 {% for talk in object_list %}
                     <a href="{% url 'talk_view' pk=talk.id %}"
                        class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5> {{ talk.title }}</h5>
+                            {% if talk.headline %}
+                                <h5>{{ talk.headline|safe }}</h5>
+                            {% else %}
+                                <h5> {{ talk.title }}</h5>
+                            {% endif %}
                         </div>
                         <p class="mb-1">{{ talk.description | striptags | truncatewords:20 | safe }}</p>
                     </a>
@@ -28,27 +52,6 @@
             <br>
             {% bootstrap_pagination page_obj extra=pagination_extra %}
 
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">The Mind Illuminated archive</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Meditation talks from Culadasa</h6>
-                    <p class="card-text">tmi-archive.com contains talks from <a href="http://culadasa.com"
-                                                                                target="_blank">Culadasa</a>
-                        and is
-                        named after his wonderful book.
-                        <br>
-                        <br>
-                        Audio files are cleaned, and anybody can <a href="{% url 'account_signup' %}">help
-                            organise</a> talks.
-                        <br><br>
-                        This is an early stage project, and any <a href="{% url 'contact' %}">feedback</a> or
-                        participation is more than welcome.
-                    </p>
-                </div>
-
-            </div>
         </div>
 
     </div>

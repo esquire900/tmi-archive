@@ -9,7 +9,7 @@ from .forms import TalkForm, PlaylistForm
 from .models import Talk, TalkMetric
 from .models import Playlist
 
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector, SearchHeadline
 
 
 class IndexView(generic.ListView):
@@ -26,11 +26,19 @@ class IndexView(generic.ListView):
 
         if self.query:
             vector = SearchVector('title', config='english', weight='A') \
-                     + SearchVector('description', config='english', weight='B') \
-                     + SearchVector('transcription', config='english', weight='C')
+                     + SearchVector('description', config='english', weight='B')
             query = SearchQuery(self.query)
 
-            queryset = Talk.objects.annotate(rank=SearchRank(vector, query, cover_density=True)).order_by('-rank')
+            queryset = Talk.objects.annotate(
+                rank=SearchRank(vector, query, cover_density=True),
+                search=vector,
+                headline=SearchHeadline(
+                    'title',
+                    SearchQuery(self.query),
+                    start_sel='<mark>',
+                    stop_sel='</mark>',
+                ),
+            ).filter(search=query).order_by('-rank')
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -39,7 +47,6 @@ class IndexView(generic.ListView):
         # Add in the publisher
         context['search_query'] = self.request.GET.get('q') or ''
         context['pagination_extra'] = f'q={self.query}' if self.query else None
-        context['display_header'] = True
         return context
 
 
@@ -69,7 +76,7 @@ class DetailView(generic.DetailView):
         user = None
         if not self.request.user.is_anonymous:
             user = self.request.user
-        TalkMetric.track(context['object'], TalkMetric.MetricType.VIEW,  user)
+        TalkMetric.track(context['object'], TalkMetric.MetricType.VIEW, user)
         return context
 
 
