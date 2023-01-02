@@ -5,7 +5,7 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 
 from .forms import TalkForm, PlaylistForm
-from .models import Talk
+from .models import Talk, TalkMetric
 from .models import Playlist
 
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
@@ -49,6 +49,7 @@ class DetailOriginalView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['audio_url'] = self.get_object().audio_url_original
+        TalkMetric.track(context['object'], TalkMetric.MetricType.VIEW)
         return context
 
 
@@ -59,6 +60,7 @@ class DetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['audio_url'] = self.get_object().audio_url
+        TalkMetric.track(context['object'], TalkMetric.MetricType.VIEW)
         return context
 
 

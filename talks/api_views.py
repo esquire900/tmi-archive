@@ -1,7 +1,7 @@
 from django.http import HttpResponse,  HttpResponseNotFound, FileResponse
 from django.shortcuts import get_object_or_404
 
-from .models import Talk
+from .models import Talk, TalkMetric
 from .models import Playlist
 
 from rest_framework import viewsets
@@ -42,10 +42,11 @@ def download_transcription(request, pk):
 def download_audio(request, pk, audio_type='cleaned'):
     talk = get_object_or_404(Talk, pk=pk)
     if not talk.has_audio:
-        return HttpResponseNotFound()
+        return HttpResponseNotFound(f'No audio file found for this talk (id: {pk}, audio_type:{audio_type})')
     if audio_type is 'cleaned':
         file = talk.audio_cleaned
     else:
         file = talk.audio_original
+    TalkMetric.track(talk, TalkMetric.MetricType.DOWNLOAD)
 
     return FileResponse(open(file.path, 'rb'))

@@ -1,4 +1,5 @@
 import copy
+import datetime
 
 import reversion
 from crum import get_current_user
@@ -17,11 +18,11 @@ class Talk(models.Model):
     description = HTMLField(null=True)
     audio_original = models.FileField(null=True, blank=True,
                                       upload_to=FilePattern(
-                                          filename_pattern='audio/original/tmi-archive-{uuid:.12base32}.mp3'),
+                                          filename_pattern='audio/{instance.id}/original.mp3'),
                                       validators=[FileExtensionValidator(['mp3'])])
     audio_cleaned = models.FileField(null=True, blank=True,
                                      upload_to=FilePattern(
-                                         filename_pattern='audio/cleaned/tmi-archive-{uuid:.12base32}.mp3'),
+                                         filename_pattern='audio/{instance.id}/cleaned.mp3'),
                                      validators=[FileExtensionValidator(['mp3'])])
 
     original_file_name = models.CharField(max_length=300, blank=True, null=True)
@@ -74,9 +75,13 @@ class Talk(models.Model):
     @property
     def has_audio(self) -> bool:
         if self.audio_cleaned is None:
-            return True
+            return False
         if not self.audio_cleaned.readable:
-            return True
+            return False
+        try:
+            str(self.audio_cleaned.path)
+        except ValueError:
+            return False
         return True
 
     @property
@@ -184,3 +189,14 @@ class TalkMetric(models.Model):
     metric_type = EnumField(MetricType)
     created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by_talk_metric',
                                    null=True)
+
+    @staticmethod
+    def track(talk: Talk, metric_type: MetricType):
+        metric = TalkMetric(
+            talk=talk,
+            metric_type=metric_type,
+            created_at=datetime.datetime.utcnow()
+        )
+        if get_current_user() is not False:
+            metric.created_by = get_current_user()
+        metric.save()
