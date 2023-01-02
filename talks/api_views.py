@@ -1,4 +1,4 @@
-from django.http import HttpResponse,  HttpResponseNotFound
+from django.http import HttpResponse,  HttpResponseNotFound, FileResponse
 from django.shortcuts import get_object_or_404
 
 from .models import Talk
@@ -48,4 +48,4 @@ def download_audio(request, pk, audio_type='cleaned'):
     else:
         file = talk.audio_original
 
-    return HttpResponse(talk.transcription_text)
+    return FileResponse(open(file.path, 'rb'))

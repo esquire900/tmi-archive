@@ -64,8 +64,12 @@
                         {{ talk.description|safe }}
 
                         <hr>
-                        <h2>Automated transcription</h2>
-                        {{ talk.transcription_text | safe }}
+                        <h2>Transcription</h2>
+                        <div class="collapse" id="transcriptionCollapse" aria-expanded="false">
+                            {{ talk.transcription_text | safe }}
+                            <a role="button" class="collapsed" data-toggle="collapse" href="#transcriptionCollapse"
+                               aria-expanded="false" aria-controls="collapseExample"></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,10 +94,34 @@
                         <hr>
                         * Audio files are cleaned with AI to reduce background noises. The original files are still
                         accessible through the "original" links above.
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        #module {
+          font-size: 1rem;
+          line-height: 1.5;
+        }
+
+        #module #collapseExample.collapse:not(.show) {
+          display: block;
+          height: 3rem;
+          overflow: hidden;
+        }
+
+        #module #collapseExample.collapsing {
+          height: 3rem;
+        }
+
+        #module a.collapsed::after {
+          content: '+ Show full transcription';
+        }
+
+        #module a:not(.collapsed)::after {
+          content: '- Show Less';
+        }
+    </style>
 {% endblock %}

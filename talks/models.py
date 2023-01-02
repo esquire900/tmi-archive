@@ -24,7 +24,6 @@ class Talk(models.Model):
                                          filename_pattern='audio/cleaned/tmi-archive-{uuid:.12base32}.mp3'),
                                      validators=[FileExtensionValidator(['mp3'])])
 
-    audio_filename = models.CharField(max_length=300, blank=True, null=True)
     original_file_name = models.CharField(max_length=300, blank=True, null=True)
 
     created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by')
@@ -36,6 +35,7 @@ class Talk(models.Model):
     auto_add_user_data = True
 
     transcription = models.TextField(null=True,
+                                     blank=True,
                                      help_text='The transcription of the audio is formatted in a specific way:'
                                                '"[timestamp @speaker_name] all text of paragraph (new line)". For example: <br>'
                                                '[0:00:00.0 @student] Some question.<br>'
