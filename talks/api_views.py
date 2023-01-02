@@ -43,7 +43,7 @@ def download_audio(request, pk, audio_type='cleaned'):
     talk = get_object_or_404(Talk, pk=pk)
     if not talk.has_audio:
         return HttpResponseNotFound(f'No audio file found for this talk (id: {pk}, audio_type:{audio_type})')
-    if audio_type is 'cleaned':
+    if audio_type == 'cleaned':
         file = talk.audio_cleaned
     else:
         file = talk.audio_original

@@ -15,7 +15,8 @@ from django_enum import EnumField
 @reversion.register()
 class Talk(models.Model):
     title = models.CharField(max_length=300, null=False)
-    description = HTMLField(null=True)
+    description = HTMLField(null=True, blank=True,
+                            help_text="A short description about the talk. Not the transcription itself.")
     audio_original = models.FileField(null=True, blank=True,
                                       upload_to=FilePattern(
                                           filename_pattern='{instance.id}/original.mp3'),
