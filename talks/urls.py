@@ -8,7 +8,9 @@ router.register(r'talks', api_views.TalkViewSet)
 router.register(r'playlists', api_views.PlaylistViewSet)
 
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='talk_index'),
+    path('', views.site_index, name='site_index'),
+
+    path('talk', views.IndexView.as_view(), name='talk_index'),
     path('talk/<int:pk>', views.DetailView.as_view(), name='talk_view'),
     path('talk/<int:pk>/original-audio', views.DetailOriginalView.as_view(), name='talk_view_original'),
     path('talk/<int:pk>/edit', login_required(views.UpdateView.as_view()), name='talk_edit'),

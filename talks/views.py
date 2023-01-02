@@ -94,6 +94,13 @@ class BulkDownloadView(generic.ListView):
         return queryset
 
 
+def site_index(request):
+    playlist = Playlist.objects.all()[:2]
+    return render(
+        request, 'index.html', {'display_header': True, "playlists": playlist}
+    )
+
+
 def playlist_index(request):
     return render(
         request, 'playlist/index.html', {'playlists': Playlist.objects.all()}

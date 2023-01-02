@@ -1,0 +1,68 @@
+{% extends 'main_ui.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form action="{% url 'talk_index' %}" method="get">
+                <div class="form-row align-items-center">
+                    <div class="col-auto w-75">
+                        <label class="sr-only" for="query">Search query</label>
+                        <input type="text" id="query" name="q" placeholder="Search TMI talks"
+                               class="form-control mb-2 w-100 form-control-lg">
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary btn-lg mb-2"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+            Or <a href="{% url 'talk_index' %}">
+                browse all talks
+            </a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        {% for playlist in playlists %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        Playlist: {{ playlist.title }}
+                    </div>
+                    <div class="card-body">
+                        <div class="nav flex-column">
+                            {% for talk in playlist.talks.all %}
+                                <a href="{% url 'talk_view' pk=talk.id %}" class="nav-link">
+                                    {{ talk.title }}
+
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">The Mind Illuminated archive</h5>
+                    <p class="card-text">This website contains talks and texts from the late Culadasa,
+                        and is named after his wonderful book.
+
+                        <br><br>
+                        This is an early stage project, and any <a href="{% url 'contact' %}">feedback</a>,
+                        help <a href="{% url 'account_signup' %}">organizing talks</a> or <a
+                                href="https://github.com/esquire900/tmi-archive">
+                            website development
+                        </a>
+                        is more than welcome.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

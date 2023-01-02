@@ -144,8 +144,13 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_custom"),
 
 ]
-MEDIA_ROOT = os.path.join(BASE_DIR, 'runtime/')
-MEDIA_URL = 'https://mp3.tmi-archive.com/'
+
+if ENV_DEV:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'runtime/')
+    # MEDIA_URL = 'https://mp3.tmi-archive.com/'
+else:
+    MEDIA_ROOT = os.getenv('MP3_DIRECTORY')
+    MEDIA_URL = 'https://mp3.tmi-archive.com/'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATABASES = {

@@ -82,18 +82,24 @@
 </nav>
 
 {% if display_header %}
-<div class="jumbotron jumbotron-fluid"
-     style="background-image: url('https://static.tmi-archive.com/img/meditator-2.jpg');background-size: cover;">
-    <div class="container">
-        <h1 class="display-4" style="color: black">The Mind Illuminated archive</h1>
+    <div
+            style="background-image: url('https://static.tmi-archive.com/img/meditator-2.jpg');background-size: cover;">
+        <div style="height: 220px;background-color: rgba(255,255,255,.3)">
+            <div class="container pt-5">
+                <h1 class="display-4" style="color: black">The Mind Illuminated archive</h1>
+                <p class="lead text-dark font-weight-normal " style="color: black">All known talks and texts from
+                    Culudasa.</p>
+            </div>
+        </div>
+
+
     </div>
-</div>
 {% endif %}
 <div class="container">
 
-<div class="alert alert-info">
-    2023-01-02: I am working on improving tmi-archive, it might not work as expected for a day or 2.
-</div>
+    <div class="alert alert-info">
+        2023-01-02: I am working on improving tmi-archive, it might not work as expected for a day or 2.
+    </div>
 
     {% block content %}
     {% endblock %}
