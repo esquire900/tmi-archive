@@ -24,6 +24,7 @@ class Talk(models.Model):
                                      upload_to=FilePattern(
                                          filename_pattern='{instance.id}/cleaned.mp3'),
                                      validators=[FileExtensionValidator(['mp3'])])
+    recorded_date = models.DateField(null=True, blank=True, help_text='Date when talk was recorded, if known.')
 
     original_file_name = models.CharField(max_length=300, blank=True, null=True)
 

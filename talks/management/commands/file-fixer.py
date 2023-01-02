@@ -15,27 +15,27 @@ class Command(BaseCommand):
 
         for talk in talks:
             try:
-                file = talk.audio_cleaned.path
+                file = talk.audio_original.path
             except ValueError:
                 continue
 
-            if "audio/cleaned/" not in file:
+            if "audio/original/" not in file:
                 continue
 
-            file = file.replace('audio/cleaned/', '')
+            file = file.replace('audio/original/', '')
 
             if not (os.path.exists(file)):
                 print(file)
                 continue
 
             folder = f"/data/tmi-archive-mp3/{talk.id}"
-            new_file = f"{folder}/cleaned.mp3"
+            new_file = f"{folder}/original.mp3"
 
             if not os.path.exists(folder):
                 os.makedirs(folder)
             shutil.copy(file, new_file)
             talk.auto_add_user_data = False
-            talk.audio_cleaned = f"{talk.id}/cleaned.mp3"
+            talk.audio_original = f"{talk.id}/original.mp3"
             talk.updated_by_id = 1
             talk.save()
             print(talk.id)
