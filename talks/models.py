@@ -198,6 +198,6 @@ class TalkMetric(models.Model):
             metric_type=metric_type,
             created_at=datetime.datetime.utcnow()
         )
-        if get_current_user() is not False:
+        if get_current_user() is not None:
             metric.created_by = get_current_user()
         metric.save()

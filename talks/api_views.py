@@ -49,4 +49,4 @@ def download_audio(request, pk, audio_type='cleaned'):
         file = talk.audio_original
     TalkMetric.track(talk, TalkMetric.MetricType.DOWNLOAD)
 
-    return FileResponse(open(file.path, 'rb'))
+    return FileResponse(open(file.path, 'rb'), filename=f"tmi-archive-{talk.id}.mp3")
