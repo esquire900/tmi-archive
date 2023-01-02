@@ -49,7 +49,8 @@ class DetailOriginalView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['audio_url'] = reverse('talk_download_original', kwargs={'pk': self.get_object().id})
+        url = reverse('talk_download_original', kwargs={'pk': self.get_object().id})
+        context['audio_url'] = self.request.build_absolute_uri(url)
         TalkMetric.track(context['object'], TalkMetric.MetricType.VIEW)
         return context
 
@@ -60,7 +61,8 @@ class DetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['audio_url'] = reverse('talk_download', kwargs={'pk': self.get_object().id})
+        url = reverse('talk_download', kwargs={'pk': self.get_object().id})
+        context['audio_url'] = self.request.build_absolute_uri(url)
         TalkMetric.track(context['object'], TalkMetric.MetricType.VIEW)
         return context
 
