@@ -4,6 +4,15 @@ from django import forms
 from tinymce.widgets import TinyMCE
 from .models import Talk, Playlist
 
+from django.forms import DateInput
+
+
+class DatePicker(DateInput):
+    input_type = "date"
+
+    def format_value(self, value):
+        return value.isoformat() if value is not None and hasattr(value, "isoformat") else ""
+
 
 class TalkForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -14,7 +23,9 @@ class TalkForm(forms.ModelForm):
 
     class Meta:
         model = Talk
-        fields = ['title', 'description', 'transcription']
+        fields = ['title', 'recorded_date', 'description']
+
+    recorded_date = forms.DateField(widget=DatePicker())
 
 
 class SortableTalksWidget(forms.CheckboxSelectMultiple):

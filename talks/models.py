@@ -39,7 +39,7 @@ class Talk(models.Model):
     auto_add_user_data = True
 
     whisper_transcription = models.JSONField(null=True, blank=True)
-    audio_length_seconds = models.IntegerField(null=True, blank=True)
+    audio_length = models.DurationField(null=True, blank=True)
 
     transcription = models.TextField(null=True,
                                      blank=True,

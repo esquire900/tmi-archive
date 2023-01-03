@@ -101,6 +101,12 @@
                         <td>{{ talk.recorded_date | date }}</td>
                     </tr>
                 {% endif %}
+                {% if talk.audio_length_seconds %}
+                                    <tr>
+                                        <td>Audio length</td>
+                                        <td>{{ talk.audio_length_seconds | date }}</td>
+                                    </tr>
+                                {% endif %}
                 {% if talk.original_file_name %}
                     <tr>
                         <td>Original file name</td>
