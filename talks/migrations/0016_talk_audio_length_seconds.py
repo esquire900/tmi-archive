@@ -11,8 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='talk',
-            name='audio_length_seconds',
-            field=models.IntegerField(blank=True, null=True),
-        ),
+                    model_name='talk',
+                    name='audio_length',
+                    field=models.DurationField(blank=True, null=True),
+                ),
     ]

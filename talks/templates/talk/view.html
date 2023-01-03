@@ -101,12 +101,12 @@
                         <td>{{ talk.recorded_date | date }}</td>
                     </tr>
                 {% endif %}
-                {% if talk.audio_length_seconds %}
-                                    <tr>
-                                        <td>Audio length</td>
-                                        <td>{{ talk.audio_length_seconds | date }}</td>
-                                    </tr>
-                                {% endif %}
+                {% if talk.audio_length %}
+                    <tr>
+                        <td>Audio length</td>
+                        <td>{{ talk.audio_length }}</td>
+                    </tr>
+                {% endif %}
                 {% if talk.original_file_name %}
                     <tr>
                         <td>Original file name</td>
@@ -143,7 +143,9 @@
                         accessible through the "original" links above.
                         {% if not talk.has_cleaned_audio %}
                             <br>
-                            <div class="alert alert-info">This audio does not have a cleaned file yet, you are listening to the original.</div>
+                            <div class="alert alert-info">This audio does not have a cleaned file yet, you are listening
+                                to the original.
+                            </div>
                         {% endif %}
                     </div>
                 </div>

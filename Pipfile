@@ -35,6 +35,7 @@ djangorestframework = "*"
 annotate = "*"
 django-enum = "*"
 django-robots = "*"
+mutagen = "*"
 
 [requires]
 python_version = "3.8"
