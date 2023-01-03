@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'rest_framework',
-    'django.contrib.postgres'
+    'django.contrib.postgres',
+    'robots'
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 SITE_ID = 1

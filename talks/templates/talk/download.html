@@ -28,7 +28,14 @@
     <a href="#" data-toggle="modal" data-target="#exampleModal">
         here
     </a> for instructions).
-
+    <br>
+    {% if download_original == False %}
+        To download the original audio recordings instead of the processed ones, click
+        <a href="?original_audio=1">here</a>.
+    {% else %}
+        These are the <b>original audio files</b>. To download the cleaned recordings, click
+        <a href="?">here</a>.
+    {% endif %}
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -89,8 +96,11 @@
             <tr>
                 <td>{{ talk.title }}</td>
                 {% if talk.has_audio %}
-                    <td><a href="{{ talk.audio_url }}" target="_blank">download audio</a></td>
-                    <td><a href="{{ talk.audio_url_original }}" target="_blank">download original audio</a></td>
+                    {% if original_audio %}
+                        <td><a href="{%  url 'talk_download_original' pk=talk.id %}" target="_blank">download original audio</a></td>
+                    {% else %}
+                        <td><a href="{%  url 'talk_download' pk=talk.id %}" target="_blank">download</a></td>
+                    {% endif %}
                 {% else %}
                     <td>No audio</td>
                 {% endif %}

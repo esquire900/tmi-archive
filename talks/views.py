@@ -101,15 +101,17 @@ class PlaylistCreateView(generic.CreateView):
 class BulkDownloadView(generic.ListView):
     template_name = 'talk/download.html'
     fields = ['title']
-    paginate_by = 500
+    paginate_by = 2500
 
     def get_queryset(self):
         """Return the last five published questions."""
-        self.query = self.request.GET.get('q')
         queryset = Talk.objects.order_by('pk')
-        if self.query:
-            queryset = queryset.filter(title__icontains=self.query)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['download_original'] = 'original_audio' in self.request.GET.keys()
+        return context
 
 
 def site_index(request):

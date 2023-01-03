@@ -14,15 +14,18 @@ class Command(BaseCommand):
         talks = Talk.objects.order_by('id').all()[:]
 
         for talk in talks:
-            try:
-                file = talk.audio_original.path
-            except ValueError:
-                continue
+            # try:
+            #     file = talk.audio_original.path
+            # except ValueError:
+            #     continue
+            #
+            # if "audio/original/" not in file:
+            #     continue
+            # file = file.replace('audio/original/', '')
 
-            if "audio/original/" not in file:
+            if talk.original_file_name is None:
                 continue
-
-            file = file.replace('audio/original/', '')
+            file = f"/data/tmi-archive-mp3/{talk.original_file_name}"
 
             if not (os.path.exists(file)):
                 print(file)

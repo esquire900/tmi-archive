@@ -8,8 +8,8 @@
                 <a href="{% url 'site_index' %}">Home</a>
             </li>
             <li class="breadcrumb-item">
-                            <a href="{% url 'talk_index' %}">Talks</a>
-                        </li>
+                <a href="{% url 'talk_index' %}">Talks</a>
+            </li>
             <li class="breadcrumb-item active">
                 {{ talk.title }}
             </li>
@@ -18,65 +18,71 @@
     <h1 class="display pt-2 pb-2">{{ talk.title }}</h1>
 
     <div class="row">
+        <div class="col-md-12">
+            {% if talk.has_audio %}
+                <script lang="javascript">
+                    {#chaptermarks#}
+                    window.playerConfiguration = {
+                        "options": {
+                            "theme": "default",
+                            "startPanels": ["EpisodeInfo", "Transcript"]
+                        },
+                        "extensions": {
+                            "EpisodeInfo": {
+                                "showOnStart": true
+                            },
+                            "Playlist": {
+                                "showOnStart": true
+                            },
+                            "Transcript": {
+                                "showOnStart": false
+                            },
+                            'Share': {
+                                "disabled": true
+                            },
+                        },
+                        "episode": {
+                            "media": {
+                                "mp3": "{{ audio_url }}"
+                            },
+                            "url": "{{ request.build_absolute_uri }}",
+                            "title": "{{ talk.title }}",
+                            "transcript": "//tmi-archive.com{% url 'talk_transcription' pk=talk.id %}",
+                        }
+                    }
+                </script>
+                <script class="podigee-podcast-player"
+                        src="https://cdn.podigee.com/podcast-player/javascripts/podigee-podcast-player.js"
+                        data-configuration="playerConfiguration"></script>
+
+            {% else %}
+                There is no audio for this talk.
+            {% endif %}
+        </div>
+
+    </div>
+    <div class="row">
         <div class="col-8">
             <div class="card">
                 <div class="card-body">
                     <div class="card-text">
+                        {% if talk.description %}
+                            {{ talk.description|safe }}
 
-                        {% if talk.has_audio %}
-                            <script lang="javascript">
-                                {#chaptermarks#}
-                                window.playerConfiguration = {
-                                    "options": {
-                                        "theme": "default",
-                                        "startPanels": ["EpisodeInfo", "Transcript"]
-                                    },
-                                    "extensions": {
-                                        "EpisodeInfo": {
-                                            "showOnStart": true
-                                        },
-                                        "Playlist": {
-                                            "showOnStart": true
-                                        },
-                                        "Transcript": {
-                                            "showOnStart": false
-                                        },
-                                        'Share': {
-                                            "disabled": true
-                                        },
-                                    },
-                                    "episode": {
-                                        "media": {
-                                            "mp3": "{{ audio_url }}"
-                                        },
-                                        "url": "{{ request.build_absolute_uri }}",
-                                        "title": "{{ talk.title }}",
-                                        "transcript": "//tmi-archive.com{% url 'talk_transcription' pk=talk.id %}",
-                                    }
-                                }
-                            </script>
-                            <script class="podigee-podcast-player"
-                                    src="https://cdn.podigee.com/podcast-player/javascripts/podigee-podcast-player.js"
-                                    data-configuration="playerConfiguration"></script>
-
-                        {% else %}
-                            There is no audio for this talk.
+                            <hr>
                         {% endif %}
 
-                        <hr>
-                        {{ talk.description|safe }}
+                        {% if talk.transcription_text %}
+                            <div id="transcription">
+                                <h2>Transcription</h2>
+                                <div class="collapse" id="transcriptionCollapse" aria-expanded="false">
+                                    {{ talk.transcription_text | safe }}
 
-                        <hr>
-                        <div id="transcription">
-                            <h2>Transcription</h2>
-                            <div class="collapse" id="transcriptionCollapse" aria-expanded="false">
-                                {{ talk.transcription_text | safe }}
-
+                                </div>
+                                <a role="button" class="collapsed" data-toggle="collapse" href="#transcriptionCollapse"
+                                   aria-expanded="false" aria-controls="collapseExample"></a>
                             </div>
-                            <a role="button" class="collapsed" data-toggle="collapse" href="#transcriptionCollapse"
-                                                               aria-expanded="false" aria-controls="collapseExample"></a>
-                        </div>
-
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -89,13 +95,22 @@
                         <nav class="nav flex-column">
                             <a class="nav-link" href="{% url 'talk_edit' pk=talk.id %}">Edit talk</a>
                             {% if talk.has_audio %}
+
                                 <a class="nav-link" href="{% url 'talk_download' pk=talk.id %}">Download audio (mp3)</a>
                                 <a class="nav-link" href="{% url 'talk_download_original' pk=talk.id %}">Download
                                     original
                                     audio</a>
-                                <a class="nav-link" href="{% url 'talk_view_original' pk=talk.id %}">
-                                    Listen to original audio
-                                </a>
+                                {% if 'original' in request.path %}
+
+                                    <a class="nav-link" href="{% url 'talk_view' pk=talk.id %}">
+                                        Listen to cleaned audio
+                                    </a>
+                                {% else %}
+                                    <a class="nav-link" href="{% url 'talk_view_original' pk=talk.id %}">
+                                        Listen to original audio
+                                    </a>
+                                {% endif %}
+
                             {% endif %}
                         </nav>
                         <hr>

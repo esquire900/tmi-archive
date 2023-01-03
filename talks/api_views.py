@@ -48,9 +48,7 @@ def download_audio(request, pk, audio_type='cleaned'):
     else:
         file = talk.audio_original
 
-    user = None
-    if not request.user.is_anonymous:
-        user = request.user
-    TalkMetric.track(talk, TalkMetric.MetricType.DOWNLOAD, user)
 
-    return FileResponse(open(file.path, 'rb'), filename=f"tmi-archive-{talk.id}.mp3")
+    TalkMetric.track(talk, TalkMetric.MetricType.DOWNLOAD, request)
+
+    return FileResponse(open(file.path, 'rb'), filename=f"tmi-archive-{talk.id}-{talk.slug}.mp3")

@@ -10,6 +10,7 @@ from django.urls import reverse
 from dynamic_filenames import FilePattern
 from tinymce.models import HTMLField
 from django_enum import EnumField
+from django.template.defaultfilters import slugify  # new
 
 
 @reversion.register()
@@ -68,6 +69,10 @@ class Talk(models.Model):
         return f'https://mp3.tmi-archive.com/{file_name}'
 
     @property
+    def slug(self):
+        return slugify(self.title)
+
+    @property
     def audio_url_original(self):
         if not self.has_audio:
             return None
@@ -90,7 +95,7 @@ class Talk(models.Model):
     @property
     def transcription_text(self):
         if self.transcription is None:
-            return '(no transcription available)'
+            return None
         sentences = self.transcription.split('\r\n')
         sentences = [s.split(']')[1] if ']' in s else s for s in sentences]
         paragraphs = []
@@ -190,15 +195,33 @@ class TalkMetric(models.Model):
     talk = models.ForeignKey('Talk', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     metric_type = EnumField(MetricType)
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by_talk_metric',
-                                   null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='created_by_talk_metric',
+                             null=True)
+    ip = models.GenericIPAddressField(null=True, blank=True)
 
     @staticmethod
-    def track(talk: Talk, metric_type: MetricType, user=None):
+    def track(talk: Talk, metric_type: MetricType, request=None):
+
+        def get_client_ip(request):
+            x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+            if x_forwarded_for:
+                ip = x_forwarded_for.split(',')[0]
+            else:
+                ip = request.META.get('REMOTE_ADDR')
+            return ip
+
+        user = None
+        ip = None
+        if request is not None:
+            if not request.user.is_anonymous:
+                user = request.user
+            ip = get_client_ip(request)
+
         metric = TalkMetric(
             talk=talk,
             metric_type=metric_type,
             created_at=datetime.datetime.utcnow(),
             created_by=user,
+            ip=ip
         )
         metric.save()
