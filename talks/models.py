@@ -62,13 +62,6 @@ class Talk(models.Model):
         return reverse('talk_view', kwargs={'pk': self.id})
 
     @property
-    def audio_url(self):
-        if not self.has_audio:
-            return None
-        return reverse('talk_download', kwargs={'pk': self.id})
-
-
-    @property
     def slug(self):
         return slugify(self.title)
 
@@ -78,15 +71,14 @@ class Talk(models.Model):
             return None
         return reverse('talk_download_original', kwargs={'pk': self.id})
 
-
     @property
     def has_audio(self) -> bool:
-        if self.audio_cleaned is None:
+        if self.audio_original is None:
             return False
-        if not self.audio_cleaned.readable:
+        if not self.audio_original.readable:
             return False
         try:
-            str(self.audio_cleaned.path)
+            str(self.audio_original.path)
         except ValueError:
             return False
         return True
