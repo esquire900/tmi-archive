@@ -38,6 +38,8 @@ class Talk(models.Model):
 
     auto_add_user_data = True
 
+    whisper_transcription = models.JSONField(null=True, blank=True)
+
     transcription = models.TextField(null=True,
                                      blank=True,
                                      help_text='The transcription of the audio is formatted in a specific way:'
@@ -75,10 +77,20 @@ class Talk(models.Model):
     def has_audio(self) -> bool:
         if self.audio_original is None:
             return False
-        if not self.audio_original.readable:
-            return False
         try:
             str(self.audio_original.path)
+        except ValueError:
+            return False
+        return True
+
+    @property
+    def has_cleaned_audio(self) -> bool:
+        if not self.has_audio:
+            return False
+        if self.audio_cleaned is None:
+            return False
+        try:
+            str(self.audio_cleaned.path)
         except ValueError:
             return False
         return True
