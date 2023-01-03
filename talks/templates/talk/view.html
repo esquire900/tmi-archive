@@ -68,7 +68,6 @@
                     <div class="card-text">
                         {% if talk.description %}
                             {{ talk.description|safe }}
-
                             <hr>
                         {% endif %}
 
@@ -89,6 +88,27 @@
         </div>
 
         <div class="col-4">
+            <table class="table table-sm mb-3">
+
+                                    {% if talk.created_at %}
+                                        <tr>
+                                            <td>Added at</td>
+                                            <td> {{ talk.created_at | date }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% if talk.recorded_date %}
+                                        <tr>
+                                            <td>Recording date</td>
+                                            <td>{{ talk.recorded_date | date }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% if talk.original_file_name %}
+                                        <tr>
+                                            <td>Original file name</td>
+                                            <td>{{ talk.original_file_name }}</td>
+                                        </tr>
+                                    {% endif %}
+                                </table>
             <div class="card">
                 <div class="card-body">
                     <div class="card-text">

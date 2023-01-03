@@ -65,8 +65,8 @@ class Talk(models.Model):
     def audio_url(self):
         if not self.has_audio:
             return None
-        file_name = str(self.audio_cleaned).split('/')[-1]
-        return f'https://mp3.tmi-archive.com/{file_name}'
+        return reverse('talk_download', kwargs={'pk': self.id})
+
 
     @property
     def slug(self):
@@ -76,9 +76,8 @@ class Talk(models.Model):
     def audio_url_original(self):
         if not self.has_audio:
             return None
-        file_name = str(self.audio_original).split('/')[-1]
+        return reverse('talk_download_original', kwargs={'pk': self.id})
 
-        return f'https://mp3.tmi-archive.com/{file_name}'
 
     @property
     def has_audio(self) -> bool:
@@ -221,7 +220,7 @@ class TalkMetric(models.Model):
             talk=talk,
             metric_type=metric_type,
             created_at=datetime.datetime.utcnow(),
-            created_by=user,
+            user=user,
             ip=ip
         )
         metric.save()
