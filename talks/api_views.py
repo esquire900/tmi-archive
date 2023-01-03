@@ -8,6 +8,8 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from talks.serializers import TalkSerializer, PlaylistSerializer
 from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 
 class ReadOnly(BasePermission):
@@ -22,6 +24,12 @@ class TalkViewSet(viewsets.ModelViewSet):
     queryset = Talk.objects.all().order_by('-id')
     serializer_class = TalkSerializer
     permission_classes = [permissions.IsAuthenticated | ReadOnly]
+
+    @action(detail=True, methods=['POST'])
+    def highlight(self, request, pk=None, transcription=None):
+        talk = self.get_object()
+        talk.whisper_transcription = transcription
+        return Response({'success': talk.save()})
 
 
 class PlaylistViewSet(viewsets.ModelViewSet):
