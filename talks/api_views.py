@@ -9,22 +9,22 @@ from rest_framework import permissions
 from talks.serializers import TalkSerializer, PlaylistSerializer
 
 
-class TalkViewSet(viewsets.ReadOnlyModelViewSet):
+class TalkViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
     queryset = Talk.objects.all().order_by('-id')
     serializer_class = TalkSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
 
-class PlaylistViewSet(viewsets.ReadOnlyModelViewSet):
+class PlaylistViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
     queryset = Playlist.objects.all().order_by('-id')
     serializer_class = PlaylistSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 def talk_transcription(request, pk):

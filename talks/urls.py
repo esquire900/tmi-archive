@@ -25,10 +25,11 @@ urlpatterns = [
     path('contact', views.contact, name='contact'),
     path('bulk-download', views.BulkDownloadView.as_view(), name='download-bulk'),
     re_path(r'^robots\.txt', include('robots.urls')),
+
     path('api/v1/', include(router.urls)),
     path('api/v1/api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/v1/talk/<int:pk>/transcription', api_views.talk_transcription, name='talk_transcription'),
-    path('api/v1/talk/<int:pk>/download', api_views.download_audio, name='talk_download'),
-    path('api/v1/talk/<int:pk>/download/original', api_views.download_audio, name='talk_download_original'),
+    path('api/v1/talks/<int:pk>/transcription', api_views.talk_transcription, name='talk_transcription'),
+    path('api/v1/talks/<int:pk>/download', api_views.download_audio, name='talk_download'),
+    path('api/v1/talks/<int:pk>/download/original', api_views.download_audio, name='talk_download_original'),
 
 ]
