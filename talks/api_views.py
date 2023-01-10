@@ -25,12 +25,6 @@ class TalkViewSet(viewsets.ModelViewSet):
     serializer_class = TalkSerializer
     permission_classes = [permissions.IsAuthenticated | ReadOnly]
 
-    @action(detail=True, methods=['POST'])
-    def highlight(self, request, pk=None, transcription=None):
-        talk = self.get_object()
-        talk.whisper_transcription = transcription
-        return Response({'success': talk.save()})
-
 
 class PlaylistViewSet(viewsets.ModelViewSet):
     """
@@ -58,10 +52,11 @@ def download_audio(request, pk, audio_type='cleaned'):
     if not talk.has_audio:
         return HttpResponseNotFound(f'No audio file found for this talk (id: {pk}, audio_type:{audio_type})')
     if audio_type == 'cleaned':
-        try:
+        if talk.has_cleaned_audio:
             file = talk.audio_cleaned.path
-        except ValueError:
+        else:
             file = talk.audio_original.path
+
     else:
         file = talk.audio_original.path
 

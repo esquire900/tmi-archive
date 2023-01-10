@@ -104,7 +104,7 @@
                 {% if talk.audio_length %}
                     <tr>
                         <td>Audio length</td>
-                        <td>{{ talk.audio_length }}</td>
+                        <td>{{ talk.audio_length_formatted }}</td>
                     </tr>
                 {% endif %}
                 {% if talk.original_file_name %}
@@ -139,7 +139,7 @@
                             {% endif %}
                         </nav>
                         <hr>
-                        * Audio files are cleaned with AI to reduce background noises. The original files are still
+                        * Audio files are processed to reduce background noise, and provide (much) better compression. The original files are still
                         accessible through the "original" links above.
                         {% if not talk.has_cleaned_audio %}
                             <br>
