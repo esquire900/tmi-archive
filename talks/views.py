@@ -144,9 +144,6 @@ def download_transcription(request, pk):
 def contact(request):
     return render(request, 'contact.html')
 
-def robots_txt(request):
-    return render(request, 'robots.html')
-
 
 @login_required()
 def profile_view(request):
