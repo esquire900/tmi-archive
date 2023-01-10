@@ -47,11 +47,20 @@ def download_transcription(request, pk):
     return HttpResponse(talk.transcription_text, content_type='text/plain')
 
 
-def download_audio(request, pk, audio_type='cleaned'):
+def download_audio(request, pk):
+    return download_audio_response(request, pk, False)
+
+
+
+def download_audio_original(request, pk):
+    return download_audio_response(request, pk, True)
+
+
+def download_audio_response(request, pk, original=False):
     talk = get_object_or_404(Talk, pk=pk)
     if not talk.has_audio:
-        return HttpResponseNotFound(f'No audio file found for this talk (id: {pk}, audio_type:{audio_type})')
-    if audio_type == 'cleaned':
+        return HttpResponseNotFound(f'No audio file found for this talk (id: {pk})')
+    if original is False:
         if talk.has_cleaned_audio:
             file = talk.audio_cleaned.path
         else:
