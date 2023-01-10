@@ -24,7 +24,7 @@ urlpatterns = [
     path('accounts/profile/', views.profile_view, name='profile_view'),
     path('contact', views.contact, name='contact'),
     path('bulk-download', views.BulkDownloadView.as_view(), name='download-bulk'),
-    re_path(r'^robots\.txt', include('robots.urls')),
+    path('robots.txt', views.robots_txt, name='robots-txt'),
 
     path('api/v1/', include(router.urls)),
     path('api/v1/api-auth/', include('rest_framework.urls', namespace='rest_framework')),
