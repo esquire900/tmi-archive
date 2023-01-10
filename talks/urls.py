@@ -1,4 +1,6 @@
 from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
+
 from talks import views, api_views
 from rest_framework import routers
 from django.urls import include, path, re_path
@@ -24,12 +26,11 @@ urlpatterns = [
     path('accounts/profile/', views.profile_view, name='profile_view'),
     path('contact', views.contact, name='contact'),
     path('bulk-download', views.BulkDownloadView.as_view(), name='download-bulk'),
-    path('robots.txt', views.robots_txt, name='robots-txt'),
+    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
 
     path('api/v1/', include(router.urls)),
     path('api/v1/api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/v1/talks/<int:pk>/transcription', api_views.talk_transcription, name='talk_transcription'),
     path('api/v1/talks/<int:pk>/download', api_views.download_audio, name='talk_download'),
     path('api/v1/talks/<int:pk>/download/original', api_views.download_audio_original, name='talk_download_original'),
-
 ]

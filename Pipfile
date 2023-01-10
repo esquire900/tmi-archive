@@ -34,7 +34,6 @@ django-fullurl = "*"
 djangorestframework = "*"
 annotate = "*"
 django-enum = "*"
-django-robots = "*"
 mutagen = "*"
 
 [requires]
