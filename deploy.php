@@ -17,7 +17,7 @@ set('env', [
    'PIPENV_VENV_IN_PROJECT' => 'true',
 ]);
 
-host('46.4.74.147')
+host('plesknew')
    ->stage('production')
    ->set('deploy_path', '~/httpdocs')
    ->user('tmi-archive');
@@ -31,8 +31,8 @@ set('github_token', function () {
 set('repository', 'https://esquire900:{{github_token}}@github.com/esquire900/tmi-archive.git');
 
 
-task('deploy:install_pipenv', function () {
-    run('cd {{release_path}} && export PIPENV_VENV_IN_PROJECT=1 && /usr/local/bin/pipenv install --python /usr/bin/python3.8');
+task('deploy:install_poetry', function () {
+    run('cd {{release_path}} && /usr/bin/poetry install');
 })->desc('custom settings shit enzo');
 
 task('deploy:custom_stuff', function () {
@@ -57,7 +57,7 @@ task('deploy', [
    'deploy:lock',
    'deploy:release',
    'deploy:update_code',
-   'deploy:install_pipenv',
+   'deploy:install_poetry',
    'deploy:custom_stuff',
    'deploy:run_migrations',
    'deploy:shared',
