@@ -22,7 +22,7 @@ class TalkSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Talk
         fields = ['id', 'title', 'audio_url', 'audio_original_url', 'description', 'has_audio',
-                  'transcription', 'original_file_name', 'recorded_date']
+                  'original_file_name', 'recorded_date']
 
 
 class PlaylistSerializer(serializers.HyperlinkedModelSerializer):

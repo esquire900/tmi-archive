@@ -105,7 +105,7 @@ class Talk(models.Model):
         paragraphs = []
         paragraph = ''
         for sentence in sentences:
-            if len(paragraph) > 500:
+            if len(paragraph) > 200:
                 paragraphs.append(copy.copy(paragraph))
                 paragraph = ''
             paragraph += str(sentence)
@@ -137,7 +137,7 @@ class Talk(models.Model):
                 sentence = f"[{start_timedelta} @] " + sentence
             paragraph += sentence
 
-            if len(paragraph) > 500:
+            if len(paragraph) > 200:
                 paragraphs.append(paragraph)
                 paragraph = ""
         paragraphs.append(paragraph)

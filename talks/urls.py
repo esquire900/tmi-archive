@@ -31,6 +31,8 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/v1/api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/v1/talks/<int:pk>/transcription', api_views.talk_transcription, name='talk_transcription'),
+    path('api/v1/talks/<int:pk>/transcription_json', api_views.talk_transcription_json, name='talk_transcription_json'),
+
     path('api/v1/talks/<int:pk>/download', api_views.download_audio, name='talk_download'),
     path('api/v1/talks/<int:pk>/download/original', api_views.download_audio_original, name='talk_download_original'),
 ]

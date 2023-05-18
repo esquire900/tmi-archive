@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        talks = Talk.objects.order_by('id').all()[:20]
+        talks = Talk.objects.order_by('id').all()[:]
         for talk in talks:
             if not talk.audio_original:
                 continue
@@ -24,4 +24,3 @@ class Command(BaseCommand):
                 talk.auto_add_user_data = False
                 talk.save()
                 print(talk.audio_cleaned)
-                break

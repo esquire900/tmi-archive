@@ -42,6 +42,13 @@ def talk_transcription(request, pk):
     return response
 
 
+def talk_transcription_json(request, pk):
+    talk = get_object_or_404(Talk, pk=pk)
+    response = HttpResponse(talk.transcription, content_type="text/json", charset='utf-8')
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
+
+
 def download_transcription(request, pk):
     talk = get_object_or_404(Talk, pk=pk)
     return HttpResponse(talk.transcription_text, content_type='text/plain')
@@ -49,7 +56,6 @@ def download_transcription(request, pk):
 
 def download_audio(request, pk):
     return download_audio_response(request, pk, False)
-
 
 
 def download_audio_original(request, pk):
