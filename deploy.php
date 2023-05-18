@@ -34,12 +34,11 @@ task('deploy:install_poetry', function () {
 })->desc('custom settings shit enzo');
 
 task('deploy:custom_stuff', function () {
-    run('which poetry');
-//    upload('./.env.live', '{{release_path}}/../../.env');
+    upload('./.env.live', '{{release_path}}/../../.env');
 })->desc('custom settings shit enzo');
 
 task('deploy:run_migrations', function () {
-    $python_loc = '{{release_path}}/.venv/bin/python3.8';
+    $python_loc = '{{release_path}}/.venv/bin/python';
     run($python_loc . " {{release_path}}/manage.py migrate");
     run("cd {{release_path}} && " . $python_loc . " manage.py collectstatic --noinput");
     run("cp /var/www/vhosts/tmi-archive.com/httpdocs/current/static/* /var/www/vhosts/tmi-archive.com/static.tmi-archive.com/static -r");

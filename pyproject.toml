@@ -33,6 +33,7 @@ djangorestframework = "*"
 annotate = "*"
 django-enum = "*"
 mutagen = "*"
+django-robots = "^5.0"
 
 [tool.poetry.dev-dependencies]
 
