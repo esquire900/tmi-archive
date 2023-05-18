@@ -12,10 +12,8 @@ set('writable_dirs', ['runtime', '../static', 'static/mp3/']);
 set('writable_mode', 'chmod');
 set('writable_use_sudo', false);
 set('writable_chmod_mode', '777');
-set('env', [
-    # deploys venv in local dir, so every release gets its own environment
-   'PIPENV_VENV_IN_PROJECT' => 'true',
-]);
+
+set('python', '/usr/bin/python3');
 
 host('plesknew')
    ->stage('production')
@@ -32,11 +30,12 @@ set('repository', 'https://esquire900:{{github_token}}@github.com/esquire900/tmi
 
 
 task('deploy:install_poetry', function () {
-    run('cd {{release_path}} && /usr/bin/poetry install');
+    run('cd {{release_path}} && ~/.local/bin/poetry install');
 })->desc('custom settings shit enzo');
 
 task('deploy:custom_stuff', function () {
-    upload('./.env.live', '{{release_path}}/../../.env');
+    run('which poetry');
+//    upload('./.env.live', '{{release_path}}/../../.env');
 })->desc('custom settings shit enzo');
 
 task('deploy:run_migrations', function () {
