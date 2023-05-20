@@ -6,12 +6,10 @@ authors = ["simon <simon@simonnouwens.nl>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-django = "==4.0.8"
+django = ".0.8"
 django-reversion = "*"
 django-reversion-compare = "*"
 sentry-sdk = "*"
-psycopg2-binary = "*"
-boto3 = "==1.21.3"
 django-storages = "*"
 django-crum = "*"
 django-dynamic-filenames = "*"
@@ -34,6 +32,8 @@ annotate = "*"
 django-enum = "*"
 mutagen = "*"
 django-robots = "^5.0"
+mysqlclient = "^2.1.1"
+boto3 = "^1.26.137"
 
 [tool.poetry.dev-dependencies]
 

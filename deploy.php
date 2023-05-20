@@ -9,13 +9,10 @@ date_default_timezone_set("UTC");
 set('keep_releases', 2);
 set('shared_dirs', ['runtime', '__pycache__']);
 set('writable_dirs', ['runtime', '../static', 'static/mp3/']);
-set('writable_mode', 'chmod');
-set('writable_use_sudo', false);
-set('writable_chmod_mode', '777');
 
 set('python', '/usr/bin/python3');
 
-host('plesknew')
+host('plesk')
    ->stage('production')
    ->set('deploy_path', '~/httpdocs')
    ->user('tmi-archive');
