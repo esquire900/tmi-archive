@@ -34,6 +34,7 @@ mutagen = "*"
 django-robots = "^5.0"
 mysqlclient = "^2.1.1"
 boto3 = "^1.26.137"
+psycopg2-binary = "*"
 
 [tool.poetry.dev-dependencies]
 
