@@ -1,0 +1,13 @@
+name: claude-code
+repository: FreelyGive/ddev-claude-code
+version: 1.2.0
+install_date: "2026-07-15T10:58:26+02:00"
+project_files:
+    - web-build/Dockerfile.claude-code
+    - commands/web/claude
+    - commands/host/claude-update
+    - config.claude-code.yaml
+    - claude-code/.claude.json
+    - claude-code/.gitignore
+global_files: []
+removal_actions: []
