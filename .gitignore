@@ -33,3 +33,6 @@ Thumbs.db
 /database/data/*.sql
 # Legacy scratch notebooks / scrapers, not part of the app
 /_other
+# Locally downloaded test MP3s and the symlink that serves them
+/public/media
+/storage/app/media
