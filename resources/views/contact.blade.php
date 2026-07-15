@@ -7,8 +7,7 @@
         <div class="col-lg-8 offset-lg-2">
             <h1 class="h2 mb-3">Contact</h1>
             <p>
-                This is a project made to preserve dhamma and meditation talks from
-                <a href="https://www.patreon.com/culadasa" target="_blank" rel="noopener">Culadasa</a>.
+                This is a project made to preserve dhamma and meditation talks from the late Culadasa.
             </p>
             <p>
                 Please feel free to reach out with any questions or feedback about this website by
