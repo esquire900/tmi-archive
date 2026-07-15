@@ -75,6 +75,10 @@ return [
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => env('DB_CHARSET', 'utf8mb4'),
             'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
+            // Timestamps are stored in UTC; pin the session tz so reads/writes
+            // don't shift by the container's local zone (DDEV inherits the host
+            // zone, e.g. Europe/Amsterdam). Keeps stored UTC == read UTC.
+            'timezone' => env('DB_TIMEZONE', '+00:00'),
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,

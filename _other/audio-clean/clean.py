@@ -1,7 +1,7 @@
 import glob
 import os
 
-audio_folder = '/data1/projects/tmi_archive/rsync-server'
+audio_folder = '/data1/projects/tmi-archive/rsync-server'
 original_files = sorted(glob.glob(f'{audio_folder}/*/original.mp3'))
 for original_file in original_files:
     talk_id = original_file.split('/')[-2]
