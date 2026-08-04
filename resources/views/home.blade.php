@@ -50,7 +50,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Updates</h5>
                     <p class="card-text small mb-0">
-                        All talks have been transcribed with Whisper, and audio files cleaned for better quality.
+                        2026-08: all talks from the <a href="https://youtube.com/@culadasaaudioarchive8942?si=B1Md9_M8PIzaTLR5">youtube playlist</a> have been added
                     </p>
                 </div>
             </div>
